@@ -1,0 +1,337 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>La isla de María · Portafolio</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{--crema:#fff8e6;--tinta:#6b5a45;--verde:#3fb58f;--amarillo:#f7c531;--rosa:#f58aa5}
+  *{box-sizing:border-box}
+  html,body{margin:0;height:100%;overflow:hidden;background:#7fd6d0;font-family:Fredoka,'Arial Rounded MT Bold','Trebuchet MS',sans-serif;color:var(--tinta);-webkit-tap-highlight-color:transparent}
+  #mundo{position:fixed;inset:0;width:100%;height:100%;display:block;touch-action:none;cursor:pointer}
+  button{font:inherit;color:inherit;cursor:pointer;border:0}
+  .pill{background:var(--crema);border-radius:999px;box-shadow:0 4px 0 rgba(60,50,30,.15);padding:8px 18px;font-weight:600}
+  #reloj{position:fixed;top:14px;left:14px;display:flex;gap:10px;align-items:center;font-size:15px}
+  #reloj b{color:var(--verde);font-size:19px}
+  #acciones{position:fixed;top:14px;right:14px;display:flex;gap:8px}
+  #acciones button{font-size:15px}
+  #acciones button:hover,.chip:hover{background:#fff}
+  #ayuda{position:fixed;left:14px;bottom:14px;font-size:13px;font-weight:500;opacity:.9;max-width:60vw}
+  #aviso{position:fixed;left:50%;bottom:74px;transform:translateX(-50%);font-size:17px;display:none;align-items:center;gap:10px;white-space:nowrap;animation:sube .25s ease-out}
+  #aviso i{font-style:normal;background:var(--amarillo);color:#fff;border-radius:50%;width:26px;height:26px;display:grid;place-items:center;font-size:14px;font-weight:700}
+  @keyframes sube{from{transform:translate(-50%,12px);opacity:0}}
+  /* Diálogo */
+  #dlg{position:fixed;left:50%;bottom:26px;transform:translateX(-50%);width:min(720px,94vw);background:var(--crema);border-radius:64px/56px;padding:36px 48px 34px;font-size:22px;line-height:1.35;font-weight:500;box-shadow:0 8px 0 rgba(60,50,30,.14);display:none;min-height:128px;cursor:pointer;animation:pop .22s cubic-bezier(.3,1.5,.5,1)}
+  @keyframes pop{from{transform:translateX(-50%) scale(.85);opacity:0}}
+  #dlgNombre{position:absolute;top:-16px;left:44px;background:var(--c,#f58aa5);color:#fff;padding:3px 20px;border-radius:999px;transform:rotate(-4deg);font-weight:600;font-size:18px}
+  #dlgSig{position:absolute;right:44px;bottom:12px;color:var(--amarillo);font-size:20px;animation:bota .6s ease-in-out infinite alternate;visibility:hidden}
+  @keyframes bota{to{transform:translateY(5px)}}
+  /* Paneles */
+  #velo{position:fixed;inset:0;background:rgba(40,70,70,.35);display:none;place-items:center;padding:16px}
+  .panel{background:var(--crema);border-radius:36px;width:min(860px,100%);max-height:92vh;overflow:auto;box-shadow:0 10px 0 rgba(60,50,30,.16);animation:pop2 .25s cubic-bezier(.3,1.4,.5,1);position:relative}
+  @keyframes pop2{from{transform:scale(.9);opacity:0}}
+  .panel header{background:var(--c,#3fb58f);color:#fff;padding:22px 30px 18px;border-radius:36px 36px 0 0}
+  .panel header small{display:block;font-weight:500;opacity:.9;letter-spacing:.04em;text-transform:uppercase;font-size:12px}
+  .panel header h2{margin:2px 0 0;font-size:30px;line-height:1.1}
+  .cuerpo{padding:22px 30px 28px;display:grid;grid-template-columns:1fr 1.2fr;gap:24px}
+  .foto{border-radius:22px;min-height:220px;background:repeating-linear-gradient(45deg,rgba(255,255,255,.35) 0 14px,transparent 14px 28px),var(--c,#3fb58f);display:grid;place-items:center;color:#fff;font-weight:600;text-align:center;padding:16px;font-size:14px}
+  .cuerpo p{margin:0 0 14px;font-size:17px;line-height:1.5}
+  .chips{display:flex;flex-wrap:wrap;gap:6px;margin:0 0 18px;padding:0;list-style:none}
+  .chips li{background:#fff;border-radius:999px;padding:3px 12px;font-size:13px;font-weight:500}
+  .btn{display:inline-block;background:var(--amarillo);color:#5b4a14;text-decoration:none;font-weight:600;padding:10px 22px;border-radius:999px;box-shadow:0 4px 0 #d9a514}
+  .btn:active{transform:translateY(3px);box-shadow:0 1px 0 #d9a514}
+  .cerrar{position:absolute;top:14px;right:16px;width:40px;height:40px;border-radius:50%;background:rgba(255,255,255,.3);color:#fff;font-size:20px;font-weight:700}
+  .lista{padding:22px 30px 28px;display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:10px}
+  .chip{background:#fff;border-radius:20px;padding:12px 16px;text-align:left;font-weight:600;font-size:16px;box-shadow:0 3px 0 rgba(60,50,30,.1)}
+  .chip small{display:block;font-weight:400;font-size:13px;opacity:.8}
+  .exp{margin:0 0 14px;padding:0;list-style:none}.exp li{background:#fff;border-radius:16px;padding:10px 14px;margin-bottom:8px;font-size:15px}.exp b{display:block}
+  @media (max-width:640px){
+    .cuerpo{grid-template-columns:1fr}.foto{min-height:150px}
+    #dlg{font-size:18px;padding:30px 30px 28px;border-radius:44px}
+    #ayuda{display:none}#reloj{font-size:13px}#acciones button{font-size:13px;padding:8px 12px}
+  }
+  .npc .bob{animation:respira 1.6s ease-in-out infinite alternate;transform-origin:0 0}
+  @keyframes respira{to{transform:scaleY(1.04) translateY(-1px)}}
+  .marca{animation:bota .7s ease-in-out infinite alternate}
+  @media (prefers-reduced-motion:reduce){.npc .bob,.marca,#dlgSig{animation:none}}
+  /* Mapa que se arrastra */
+  #mundo{cursor:grab}#mundo:active{cursor:grabbing}
+  [data-id]{cursor:pointer}
+  .edif .in{transition:transform .2s cubic-bezier(.3,1.6,.5,1);transform-box:fill-box;transform-origin:50% 100%}
+  .edif:hover .in,.edif.activo .in{transform:translateY(-6px) scale(1.06)}
+  #zoom{position:fixed;right:14px;bottom:14px;display:flex;flex-direction:column;gap:8px}
+  #zoom button{width:46px;height:46px;padding:0;font-size:24px;line-height:1}
+  #panel{position:fixed;top:14px;right:14px;bottom:14px;width:min(440px,calc(100vw - 28px));background:var(--crema);border-radius:32px;box-shadow:0 10px 0 rgba(60,50,30,.16);overflow:auto;display:none;animation:entra .3s cubic-bezier(.3,1.3,.5,1)}
+  @keyframes entra{from{transform:translateX(40px);opacity:0}}
+  @keyframes entraM{from{transform:translateY(40px);opacity:0}}
+  #panel header{background:var(--c);color:#fff;padding:56px 26px 18px;border-radius:32px 32px 0 0}
+  #panel header small{display:block;font-weight:500;opacity:.92;letter-spacing:.04em;text-transform:uppercase;font-size:12px}
+  #panel header h2{margin:2px 0 0;font-size:28px;line-height:1.1}
+  .volver{position:absolute;top:13px;left:14px;background:rgba(255,255,255,.92);border-radius:999px;padding:6px 16px;font-weight:600;font-size:14px}
+  .pc{padding:18px 22px 26px}
+  .pc p{font-size:16px;line-height:1.5;margin:0 0 14px}
+  .habla{display:flex;gap:10px;align-items:flex-end;margin-bottom:16px}
+  .habla svg{width:62px;flex:none}
+  .habla p{background:#fff;border-radius:22px 22px 22px 6px;padding:12px 16px;margin:0;font-size:15px}
+  .habla b{color:var(--c);display:block}
+  .pc .foto{min-height:190px;margin-bottom:16px}
+  .pc .lista{padding:0;grid-template-columns:1fr}
+  @media (max-width:640px){#panel{top:auto;left:8px;right:8px;bottom:8px;width:auto;max-height:64vh;animation-name:entraM}#zoom{display:none}#acciones{top:auto;bottom:14px;left:10px;right:10px;justify-content:center}}
+</style>
+</head>
+<body>
+<svg id="mundo" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 2000 1400" preserveAspectRatio="xMidYMid slice" aria-label="Mapa de la isla">
+  <defs>
+    <linearGradient id="shade" x1="0" x2="1"><stop offset="0" stop-color="#fff" stop-opacity=".22"/><stop offset=".55" stop-color="#fff" stop-opacity="0"/><stop offset="1" stop-color="#000" stop-opacity=".13"/></linearGradient>
+    <radialGradient id="bola" cx=".35" cy=".3" r=".8"><stop offset="0" stop-color="#fff" stop-opacity=".45"/><stop offset=".6" stop-color="#fff" stop-opacity="0"/><stop offset="1" stop-color="#000" stop-opacity=".12"/></radialGradient>
+    <pattern id="teja" width="18" height="12" patternUnits="userSpaceOnUse"><path d="M0 0q9 12 18 0M-9 6q9 12 18 0M9 6q9 12 18 0" fill="none" stroke="#000" stroke-opacity=".13" stroke-width="2"/></pattern>
+    <pattern id="hierba" width="56" height="48" patternUnits="userSpaceOnUse"><path d="M8 14l7-10 7 10zM36 38l7-10 7 10z" fill="#7fc96f" opacity=".7"/><path d="M34 12l5-7 5 7zM6 40l5-7 5 7z" fill="#a6e294" opacity=".7"/></pattern>
+    <pattern id="olas" width="140" height="70" patternUnits="userSpaceOnUse"><path d="M10 20q12-9 24 0t24 0M80 55q12-9 24 0t24 0" fill="none" stroke="#fff" stroke-opacity=".45" stroke-width="4" stroke-linecap="round"/><animateTransform attributeName="patternTransform" type="translate" from="0 0" to="140 0" dur="9s" repeatCount="indefinite"/></pattern>
+    <pattern id="losa" width="44" height="28" patternUnits="userSpaceOnUse"><path d="M0 0h44M0 14h44M11 0v14M33 14v14" stroke="#c9ae78" stroke-opacity=".5" stroke-width="2" fill="none"/></pattern>
+  </defs>
+  <rect x="-3000" y="-3000" width="8000" height="8000" fill="#7fd6d0"/><rect x="-3000" y="-3000" width="8000" height="8000" fill="url(#olas)"/>
+  <g id="suelo"></g>
+  <g id="ents"></g>
+  <rect id="cielo" x="-3000" y="-3000" width="8000" height="8000" fill="none" pointer-events="none"/>
+</svg>
+
+<div id="reloj" class="pill"><span id="fecha"></span><b id="hora"></b></div>
+<div id="acciones">
+  <a class="pill" href="index.html" style="text-decoration:none;color:inherit;font-size:15px">← Inicio</a>
+  <button class="pill" id="btnMapa">Ver toda la isla</button>
+  <button class="pill" id="btnRapido">Ver portafolio rápido</button>
+</div>
+<div id="ayuda" class="pill">Arrastra para moverte · rueda o pellizco para acercar · toca un edificio</div>
+<div id="zoom"><button class="pill" id="zMas" aria-label="Acercar">+</button><button class="pill" id="zMenos" aria-label="Alejar">−</button></div>
+<aside id="panel"></aside>
+
+<script>
+/* ============================================================
+   DATOS — para añadir un proyecto nuevo: cambia una parcela
+   (tipo:'parcela') por un edificio y rellena su ficha.
+   ============================================================ */
+const BEHANCE='https://www.behance.net/mariabonillaaragon';
+const LUGARES=[
+ {id:'plaza',nombre:'Plaza central',sub:'Inicio',x:1000,y:720,tipo:'plaza',hw:16,color:'#3fb58f',habla:'María',
+  lineas:['¡Hola! Soy María y esta es mi isla. Aquí vive todo mi trabajo como diseñadora gráfica.','Cada edificio es un proyecto. Pasea, entra donde quieras… ¡y no te vayas sin pasar por Correos!'],ficha:'menu'},
+ {id:'casa',nombre:'Mi casita',sub:'Sobre mí',x:1000,y:430,tipo:'casa',hw:58,color:'#f0766a',habla:'María',
+  lineas:['Esta es mi casita. Pasa, pasa, que te cuento quién soy.'],
+  ficha:{clase:'sobre',titulo:'María Bonilla Aragoneses',pre:'Sobre mí · Diseñadora gráfica',
+   txt:'Enfocada en ilustración digital, diseño editorial y modelado 3D, desarrollo soluciones visuales que comunican con fuerza y autenticidad. Mi trabajo busca combinar estética y narrativa para crear piezas que conectan emocionalmente y aportan valor a cada proyecto.',
+   tags:['Photoshop','Illustrator','InDesign','Rhino','Adobe Dimension','Ilustración digital','Editorial','3D'],url:BEHANCE,cta:'Ver mi Behance'}},
+ {id:'sentia',nombre:'Tienda Sentia',sub:'Proyecto',x:640,y:470,tipo:'tienda',hw:62,color:'#57c2a8',cuerpo:'#d5f2e6',habla:'Pistacho',npc:{t:'rana',c:'#8fd67f',p:'#fff7d6',r:'#f7c531'},
+  lineas:['¡Croac! Bienvenida a Sentia. Aquí las fundas de móvil se aprietan, se tocan y relajan un montón.','María las diseñó pensando en personas neurodivergentes. ¿Te enseño el proyecto?'],
+  ficha:{titulo:'Sentia',pre:'Marca · Producto · Web · Packaging',txt:'Fundas de teléfono para personas neurodivergentes, que combinan creatividad, funcionalidad y confort sensorial. Incluye la marca, el producto, la web, el packaging y el stand.',tags:['Photoshop','Diseño de logo','Redes sociales'],url:'https://www.behance.net/gallery/246301585/Fundas-de-Telfono-para-personas-Neurodivergentes'}},
+ {id:'bimba',nombre:'Burger & Moda',sub:'Proyecto',x:1360,y:470,tipo:'burger',hw:62,color:'#ef6a5b',cuerpo:'#f47f6f',habla:'Nube',npc:{t:'conejo',c:'#d9c6f5',p:'#fff',r:'#ef6a5b'},
+  lineas:['¿Menú o lookbook? ¡Aquí es lo mismo! Bimba y Lola se ha colado en un McDonald\'s.','Catálogo con forma de carta, bolsas, vasos, campaña… Mira, mira.'],
+  ficha:{titulo:'Bimba y Lola x McDonald\'s',pre:'Editorial · Packaging · Campaña',txt:'¿Cómo se cruzan el lujo accesible y el consumo masivo? Una colección de primavera que mete el universo gamberro y colorido de Bimba y Lola dentro de un McDonald\'s: un lookbook estructurado como un menú, el rediseño del packaging y el merch, y la campaña en calle y redes.',tags:['Colaboración','Moda','Editorial','Packaging'],url:'https://www.behance.net/gallery/249492559/Coleccion-primavera-BIMBA-Y-LOLA-X-McDonalds'}},
+ {id:'loewe',nombre:'Pabellón japonés',sub:'Proyecto',x:430,y:760,tipo:'pagoda',hw:72,color:'#c4604a',habla:'Mochi',npc:{t:'oso',c:'#fff',p:'#fbe9e4',r:'#c4604a'},
+  lineas:['Shhh… aquí se viene a oler despacito. Esto es Loewe, Japan Essence.','María modeló el producto en 3D, de principio a fin.'],
+  ficha:{titulo:'Loewe x Japón',pre:'Producto · 3D · Render',txt:'Japan Essence: una propuesta de producto para Loewe inspirada en Japón, modelada y renderizada en 3D.',tags:['Rhino','Adobe Dimension','Illustrator','Photoshop','Render'],url:'https://www.behance.net/gallery/241418949/Loewe-x-Japon'}},
+ {id:'sifur',nombre:'Taller de sillas',sub:'Proyecto',x:1570,y:760,tipo:'taller',hw:66,color:'#7fa0c4',habla:'Tuerca',npc:{t:'oso',c:'#c9925f',p:'#f3dcc0',r:'#7fa0c4'},
+  lineas:['¡Cuidado con la viruta! Aquí nació la silla de Style Sifur.','Marca, modelado 3D y catálogo. Siéntate y mira.'],
+  ficha:{titulo:'Style Sifur',pre:'Mobiliario · Marca · 3D',txt:'Diseño de una silla y de su marca: modelado 3D, renders y maquetación del catálogo.',tags:['Rhino','Adobe Dimension','InDesign','Photoshop'],url:'https://www.behance.net/gallery/213154483/Style-Sifur'}},
+ {id:'stand',nombre:'Invernadero',sub:'Proyecto',x:600,y:1040,tipo:'invernadero',hw:62,color:'#5fa37a',habla:'Brote',npc:{t:'conejo',c:'#f7e3b0',p:'#fff',r:'#5fa37a'},
+  lineas:['Aquí todo crece bien: es el stand que María diseñó para Fertiberia.','Lo modeló entero en 3D y preparó el contenido para redes.'],
+  ficha:{titulo:'Stand New AG International Annual',pre:'Fertiberia · Stand 3D · Redes',txt:'Proyecto desarrollado durante mis prácticas en Fertiberia. Diseño y conceptualización integral del stand corporativo para el congreso New AG International Annual: desde el modelado 3D completo del espacio hasta todo el contenido visual para redes sociales.',tags:['Stand','Render','Illustrator','Photoshop','Redes sociales'],url:'https://www.behance.net/gallery/249538917/Stand-para-el-New-AG-International-Annual'}},
+ {id:'vuelta',nombre:'La meta',sub:'Proyecto',x:1400,y:1040,tipo:'meta',hw:60,color:'#e4574c',habla:'Rayo',npc:{t:'pato',c:'#fff3b0',p:'#fff',r:'#e4574c'},
+  lineas:['¡Cuac! ¡Últimos metros! Esta es la propuesta para La Vuelta con Fertiberia.','Señalética, arco hinchable, kakemonos, redes… todo con una línea gráfica nueva.'],
+  ficha:{titulo:'Propuesta La Vuelta / Fertiberia',pre:'Identidad · Señalética · Soportes',txt:'Propuesta creativa realizada durante mis prácticas en Fertiberia para renovar los elementos de comunicación de la marca en La Vuelta: señalética, intervención gráfica de paredes, redes sociales, arco hinchable, kakemonos y otros soportes, con una línea gráfica más actual y unificada.',tags:['Identidad visual','Illustrator','Photoshop','Publicidad'],url:'https://www.behance.net/gallery/249695461/Propuesta-La-vuelta-Fertiberia'}},
+ {id:'cv',nombre:'Ayuntamiento',sub:'Experiencia y CV',x:850,y:1090,tipo:'ayto',hw:78,color:'#7fa0c4',habla:'Don Sello',npc:{t:'oso',c:'#b9b7c9',p:'#ecebf3',r:'#5b6a8a'},
+  lineas:['Ejem. Aquí guardamos los papeles importantes de la isla.','¿Quieres ver la experiencia de María?'],
+  ficha:{clase:'cv',titulo:'Experiencia',pre:'Currículum',exp:[['Prácticas de diseñadora gráfica · Departamento de marketing','Fertiberia — Madrid'],['Prácticas · Diseñadora gráfica','HOODIEBEAST — España']],url:BEHANCE+'/info',cta:'Ver currículum'}},
+ {id:'correos',nombre:'Correos',sub:'Contacto',x:1150,y:1090,tipo:'correos',hw:54,color:'#f2a03d',habla:'Carta',npc:{t:'pato',c:'#fff',p:'#fff',r:'#f2a03d'},
+  lineas:['¡Cuac! ¿Una carta para María? Yo se la llevo volando.'],
+  ficha:{clase:'contacto',titulo:'¿Hablamos?',pre:'Contacto',txt:'Estoy disponible a tiempo completo. Escríbeme y te contesto lo antes posible.',url:BEHANCE,cta:'Escríbeme en Behance'}},
+ {id:'muelle',nombre:'Muelle',sub:'Behance y redes',x:1000,y:1300,tipo:'muelle',hw:0,color:'#4aa7d6',habla:'Pico',npc:{t:'pato',c:'#ffd866',p:'#fff',r:'#4aa7d6'},
+  lineas:['Desde aquí salen los barcos hacia el resto del mundo… o sea, hacia las redes de María.'],
+  ficha:{clase:'contacto',titulo:'Fuera de la isla',pre:'Behance y redes',txt:'Sigue mi trabajo fuera de la isla.',url:BEHANCE,cta:'Ir a Behance'}},
+ {id:'p1',nombre:'Parcela en obras',sub:'Próximamente',x:400,y:520,tipo:'parcela',hw:50,color:'#b89a6a',habla:'Cartel',lineas:['«Próximamente: nuevo proyecto en construcción».']},
+ {id:'p2',nombre:'Parcela en obras',sub:'Próximamente',x:1620,y:520,tipo:'parcela',hw:50,color:'#b89a6a',habla:'Cartel',lineas:['«Aquí se está cociendo algo. Vuelve pronto».']},
+ {id:'p3',nombre:'Parcela en obras',sub:'Próximamente',x:1640,y:1000,tipo:'parcela',hw:50,color:'#b89a6a',habla:'Cartel',lineas:['«Parcela reservada para el próximo proyecto».']},
+];
+
+/* ============================================================
+   DIBUJOS (todos originales, generados aquí)
+   ============================================================ */
+const sombra=(rx,ry=12,y=2)=>`<ellipse cx="0" cy="${y}" rx="${rx}" ry="${ry}" fill="#1f4a35" opacity=".22"/>`;
+const ventana=(x,y,s=22)=>`<rect x="${x}" y="${y}" width="${s}" height="${s}" rx="6" fill="#fff"/><rect x="${x+3}" y="${y+3}" width="${s-6}" height="${s-6}" rx="4" fill="#ffe89a"/><path d="M${x+s/2} ${y+3}v${s-6}M${x+3} ${y+s/2}h${s-6}" stroke="#fff" stroke-width="2.5"/>`;
+const puerta=(x,c,w=26,h=38)=>`<path d="M${x-w/2} 0v${-(h-w/2)}a${w/2} ${w/2} 0 0 1 ${w} 0V0z" fill="${c}"/><path d="M${x-w/2+4} 0v${-(h-w/2)}a${w/2-4} ${w/2-4} 0 0 1 ${w-8} 0V0z" fill="#fff" opacity=".18"/><circle cx="${x+w/2-7}" cy="-14" r="2.6" fill="#ffe89a"/>`;
+const cuerpo=(hw,h,c)=>`<rect x="${-hw}" y="${-h}" width="${hw*2}" height="${h}" rx="10" fill="${c}"/><rect x="${-hw}" y="${-h}" width="${hw*2}" height="${h}" rx="10" fill="url(#shade)"/><rect x="${-hw}" y="-9" width="${hw*2}" height="9" rx="4" fill="#000" opacity=".1"/>`;
+const tejado=(hw,h,rh,c)=>{const d=`M${-hw-16} ${-h+8}L${hw+16} ${-h+8}L${hw-10} ${-h-rh}L${-hw+10} ${-h-rh}Z`;
+  return `<path d="${d}" fill="${c}" stroke="${c}" stroke-width="14" stroke-linejoin="round"/><path d="${d}" fill="url(#teja)"/><path d="M${-hw+12} ${-h-rh-3}H${hw-12}" stroke="#fff" stroke-opacity=".4" stroke-width="7" stroke-linecap="round"/><rect x="${-hw}" y="${-h+13}" width="${hw*2}" height="7" fill="#000" opacity=".12"/>`;};
+const toldo=(hw,y,a,b)=>{let s='',n=6,w=(hw*2+12)/n;for(let i=0;i<n;i++){const x=-hw-6+i*w;s+=`<path d="M${x} ${y}h${w}v16a${w/2} ${w/2} 0 0 1 ${-w} 0z" fill="${i%2?a:b}"/>`;}return s+`<rect x="${-hw-6}" y="${y+18}" width="${hw*2+12}" height="6" fill="#000" opacity=".1"/>`;};
+
+const EDIF={
+ casa:p=>sombra(80)+`<rect x="26" y="-128" width="18" height="34" rx="4" fill="#d98c7a"/><rect x="23" y="-132" width="24" height="9" rx="4" fill="#f3b3a4"/>`+cuerpo(58,66,'#fff3dc')+tejado(58,66,50,'#f0766a')+puerta(0,'#c98a5b')+ventana(-46,-48)+ventana(24,-48)+`<path d="M0 -92c-9-11-21 2 0 14 21-12 9-25 0-14z" fill="#fff" opacity=".9"/><rect x="-52" y="-10" width="30" height="8" rx="4" fill="#7fca70"/><circle cx="-44" cy="-13" r="4" fill="#f58aa5"/><circle cx="-33" cy="-13" r="4" fill="#fff"/>`,
+ tienda:p=>sombra(84)+cuerpo(62,62,p.cuerpo)+`<rect x="-68" y="-92" width="136" height="34" rx="12" fill="${p.color}"/><rect x="-68" y="-92" width="136" height="34" rx="12" fill="url(#shade)"/><rect x="-22" y="-88" width="44" height="26" rx="10" fill="#fff8e6"/><rect x="-8" y="-85" width="16" height="20" rx="5" fill="${p.color}"/><g fill="#fff"><circle cx="-3.500" cy="-79" r="2"/><circle cx="3.500" cy="-79" r="2"/><circle cx="-3.500" cy="-72" r="2"/><circle cx="3.500" cy="-72" r="2"/></g>`+toldo(62,-60,'#fff',p.color)+`<rect x="-52" y="-34" width="54" height="26" rx="6" fill="#fff"/><rect x="-49" y="-31" width="48" height="20" rx="4" fill="#c9f0f0"/><rect x="-42" y="-28" width="9" height="15" rx="3" fill="#f58aa5"/><rect x="-28" y="-28" width="9" height="15" rx="3" fill="#f7c531"/><rect x="-14" y="-28" width="9" height="15" rx="3" fill="#9d8cf0"/>`+puerta(32,'#c98a5b',26,34),
+ burger:p=>sombra(84)+cuerpo(62,62,p.cuerpo)+`<rect x="-68" y="-86" width="136" height="28" rx="12" fill="#d9483c"/><g transform="translate(0,-88)"><path d="M-34 0q0-34 34-34t34 34z" fill="#f0b566"/><path d="M-34 0q0-34 34-34t34 34z" fill="url(#bola)"/><g fill="#fff3d0"><ellipse cx="-12" cy="-20" rx="3" ry="1.8"/><ellipse cx="6" cy="-26" rx="3" ry="1.8"/><ellipse cx="16" cy="-14" rx="3" ry="1.8"/><ellipse cx="-22" cy="-10" rx="3" ry="1.8"/></g><path d="M-38 0h76l-7 8-9-5-10 6-9-6-10 6-9-6-9 5-6-3z" fill="#8fd67f"/><rect x="-36" y="6" width="72" height="10" rx="5" fill="#8a563a"/><path d="M-30 14h60l-12 9z" fill="#f7c531"/><rect x="-36" y="19" width="72" height="11" rx="5.500" fill="#f0b566"/></g>`+toldo(62,-58,'#f7c531','#fff3b0')+`<rect x="-52" y="-34" width="54" height="26" rx="6" fill="#fff"/><rect x="-49" y="-31" width="48" height="20" rx="4" fill="#fff0e0"/><path d="M-36 -29h10l4 5-4 3v9h-10v-9l-4-3z" fill="#f58aa5"/><path d="M-16 -29h10l4 5-4 3v9h-10v-9l-4-3z" fill="#f7c531"/>`+puerta(32,'#8a3a32',26,34),
+ pagoda:p=>sombra(96)+`<rect x="-50" y="-54" width="100" height="54" rx="6" fill="#fff3dc"/><rect x="-50" y="-54" width="100" height="54" rx="6" fill="url(#shade)"/><g fill="#c4604a"><rect x="-44" y="-52" width="7" height="52" rx="3"/><rect x="37" y="-52" width="7" height="52" rx="3"/></g><rect x="-30" y="-40" width="18" height="30" rx="3" fill="#fbe3c0"/><rect x="12" y="-40" width="18" height="30" rx="3" fill="#fbe3c0"/><path d="M-21 -40v30M-30 -25h18M21 -40v30M12 -25h18" stroke="#c4604a" stroke-width="2"/><rect x="-9" y="-38" width="18" height="38" rx="3" fill="#8a3a32"/>
+  <path d="M-88 -46q44-8 56-34h64q12 26 56 34q-44 12-88 12t-88-12z" fill="#c4604a"/><path d="M-88 -46q44-8 56-34h64q12 26 56 34q-44 12-88 12t-88-12z" fill="url(#teja)"/><circle cx="-76" cy="-36" r="6" fill="#f7c531"/><circle cx="76" cy="-36" r="6" fill="#f7c531"/>
+  <rect x="-28" y="-102" width="56" height="24" rx="4" fill="#fff3dc"/><rect x="-10" y="-97" width="20" height="14" rx="3" fill="#ffe89a"/>
+  <path d="M-58 -96q30-6 38-26h40q8 20 38 26q-29 9-58 9t-58-9z" fill="#c4604a"/><path d="M-58 -96q30-6 38-26h40q8 20 38 26q-29 9-58 9t-58-9z" fill="url(#teja)"/><circle cx="0" cy="-128" r="7" fill="#f7c531"/>`,
+ taller:p=>sombra(92,12)+`<g transform="translate(-10,0)">`+cuerpo(56,60,'#ecc9a0')+`<path d="M-62 -54L-36 -90V-58L-10 -90V-58L16 -90V-58H62V-50H-62Z" fill="#7fa0c4" stroke="#7fa0c4" stroke-width="10" stroke-linejoin="round"/><path d="M-36 -86V-58M-10 -86V-58M16 -86V-58" stroke="#fff" stroke-opacity=".5" stroke-width="5" stroke-linecap="round"/><rect x="-44" y="-40" width="44" height="40" rx="6" fill="#a8744f"/><path d="M-44 -28h44M-44 -16h44" stroke="#000" stroke-opacity=".15" stroke-width="3"/>`+ventana(14,-42,26)+`</g><g transform="translate(62,-4)"><rect x="-4" y="-10" width="8" height="12" fill="#5b4636"/><rect x="-16" y="-2" width="32" height="6" rx="3" fill="#5b4636"/><circle cy="-30" r="25" fill="#fff"/><circle cy="-30" r="25" fill="url(#bola)"/><ellipse cx="3" cy="-27" rx="15" ry="17" fill="#f2a47e"/></g>`,
+ invernadero:p=>sombra(84)+`<rect x="-62" y="-58" width="124" height="58" rx="8" fill="#e3f7f0"/><polygon points="-68,-56 0,-100 68,-56" fill="#eefbf6" stroke="#eefbf6" stroke-width="8" stroke-linejoin="round"/><g fill="#7fca70"><circle cx="-44" cy="-14" r="11"/><circle cx="44" cy="-14" r="11"/><circle cx="-40" cy="-38" r="8"/><circle cx="42" cy="-40" r="8"/></g><circle cx="-46" cy="-22" r="4" fill="#f58aa5"/><circle cx="46" cy="-24" r="4" fill="#f7c531"/><g stroke="#fff" stroke-width="5" fill="none" stroke-linecap="round"><path d="M-62 -58h124v58h-124zM-31 -58v58M31 -58v58M-62 -29h124M0 -100v42M-34 -78h68M-68 -56L0 -100L68 -56"/></g><rect x="-14" y="-36" width="28" height="36" rx="5" fill="#bfe6c9" stroke="#fff" stroke-width="4"/><rect x="-62" y="-58" width="124" height="58" rx="8" fill="url(#shade)"/>`,
+ meta:p=>`<ellipse cx="-50" cy="2" rx="20" ry="7" fill="#1f4a35" opacity=".22"/><ellipse cx="50" cy="2" rx="20" ry="7" fill="#1f4a35" opacity=".22"/><g transform="translate(-48,14)"><rect width="96" height="12" rx="3" fill="#fff"/><path d="M0 0h12v6H0zM24 0h12v6H24zM48 0h12v6H48zM72 0h12v6H72zM12 6h12v6H12zM36 6h12v6H36zM60 6h12v6H60zM84 6h12v6H84z" fill="#5b4636"/></g>
+  <path d="M-50 -2V-56A50 50 0 0 1 50 -56V-2" fill="none" stroke="#e4574c" stroke-width="28" stroke-linecap="round"/><path d="M-56 -8V-56A56 56 0 0 1 -20 -108" fill="none" stroke="#fff" stroke-opacity=".35" stroke-width="7" stroke-linecap="round"/>
+  <g fill="#fff"><circle cx="-50" cy="-30" r="5"/><circle cx="50" cy="-30" r="5"/><circle cx="-36" cy="-90" r="5"/><circle cx="36" cy="-90" r="5"/></g>
+  <rect x="-34" y="-128" width="68" height="26" rx="10" fill="#fff8e6"/><text x="0" y="-109" text-anchor="middle" font-size="17" font-weight="700" fill="#e4574c" font-family="Fredoka,sans-serif">META</text>
+  <path d="M-36 -52q36 22 72 0" fill="none" stroke="#5b4636" stroke-width="1.5"/><g><path d="M-28 -47l8 3-2 12z" fill="#f7c531"/><path d="M-12 -41l8 1-4 12z" fill="#57c2a8"/><path d="M4 -40l8-1-1 13z" fill="#f58aa5"/><path d="M20 -44l8-3-4 14z" fill="#9d8cf0"/></g>`,
+ ayto:p=>sombra(104)+cuerpo(78,70,'#f6ead2')+tejado(78,70,46,'#7fa0c4')+`<path d="M-30 -66L0 -104L30 -66Z" fill="#fff8e6" stroke="#fff8e6" stroke-width="10" stroke-linejoin="round"/><circle cx="0" cy="-78" r="13" fill="#fff"/><circle cx="0" cy="-78" r="13" fill="none" stroke="#7fa0c4" stroke-width="3"/><path d="M0 -78v-7M0 -78h5" stroke="#5b4636" stroke-width="2.5" stroke-linecap="round"/>
+  <g fill="#fff"><rect x="-66" y="-54" width="12" height="54" rx="5"/><rect x="-40" y="-54" width="12" height="54" rx="5"/><rect x="28" y="-54" width="12" height="54" rx="5"/><rect x="54" y="-54" width="12" height="54" rx="5"/></g>`+puerta(0,'#c98a5b',30,42)+`<path d="M0 -112v-34" stroke="#a8744f" stroke-width="4" stroke-linecap="round"/><path d="M2 -146h30l-7 9 7 9H2z" fill="#f58aa5"/>`,
+ correos:p=>sombra(78)+cuerpo(54,62,'#ffe7a3')+tejado(54,62,46,'#f2a03d')+puerta(-22,'#c98a5b')+`<rect x="2" y="-48" width="42" height="28" rx="5" fill="#fff"/><path d="M4 -46l19 15 19-15" fill="none" stroke="#f2a03d" stroke-width="3" stroke-linejoin="round"/><g transform="translate(76,2)"><ellipse rx="12" ry="5" fill="#1f4a35" opacity=".2"/><rect x="-3.500" y="-26" width="7" height="26" rx="3" fill="#a8744f"/><rect x="-15" y="-50" width="30" height="26" rx="11" fill="#e4574c"/><rect x="-15" y="-50" width="30" height="26" rx="11" fill="url(#bola)"/><rect x="-9" y="-41" width="18" height="4" rx="2" fill="#5b2a26"/></g>`,
+ parcela:p=>`<rect x="-52" y="-62" width="104" height="62" rx="14" fill="#d9b980"/><rect x="-44" y="-54" width="88" height="46" rx="10" fill="#c9a66b"/><g fill="#a8845a"><circle cx="-22" cy="-36" r="5"/><circle cx="12" cy="-24" r="6"/><circle cx="26" cy="-42" r="4"/></g><g fill="#fff8e6"><rect x="-56" y="-18" width="8" height="24" rx="4"/><rect x="-30" y="-10" width="8" height="18" rx="4"/><rect x="22" y="-10" width="8" height="18" rx="4"/><rect x="48" y="-18" width="8" height="24" rx="4"/></g><path d="M-52 -4h26M26 -4h26" stroke="#fff8e6" stroke-width="5" stroke-linecap="round"/>
+  <rect x="-3" y="-66" width="6" height="40" rx="3" fill="#a8744f"/><rect x="-34" y="-92" width="68" height="34" rx="9" fill="#fff8e6"/><text x="0" y="-78" text-anchor="middle" font-size="10" font-weight="600" fill="#a8744f" font-family="Fredoka,sans-serif">¡PRÓXIMA-</text><text x="0" y="-66" text-anchor="middle" font-size="10" font-weight="600" fill="#a8744f" font-family="Fredoka,sans-serif">MENTE!</text>`,
+ plaza:p=>sombra(18,6)+`<rect x="-4" y="-78" width="8" height="78" rx="4" fill="#a8744f"/><path d="M2 -76h40l12 10-12 10H2z" fill="#fff8e6"/><path d="M-2 -52h-40l-12 10 12 10h40z" fill="#f7c531"/><path d="M2 -28h34l10 8-10 8H2z" fill="#f58aa5"/><circle cx="0" cy="-82" r="7" fill="#57c2a8"/>`,
+ muelle:p=>''
+};
+
+function arbol(k,r){const f=['#f0766a','#f7a13d','#f58aa5'][Math.floor(r*3)];
+ if(k<.62)return sombra(28,9)+`<path d="M-8 0q3-20-1-36h18q-4 16-1 36z" fill="#a8744f"/><circle cx="-22" cy="-48" r="24" fill="#4fae6a"/><circle cx="22" cy="-48" r="24" fill="#4fae6a"/><circle cx="0" cy="-48" r="22" fill="#57b872"/><circle cx="0" cy="-74" r="29" fill="#66c47d"/><ellipse cx="-9" cy="-88" rx="11" ry="6" fill="#a5e6ae" opacity=".7"/><ellipse cx="-30" cy="-58" rx="7" ry="4" fill="#8fdc9a" opacity=".6"/>`+(r>.45?`<g fill="${f}"><circle cx="-20" cy="-42" r="6"/><circle cx="18" cy="-52" r="6"/><circle cx="2" cy="-32" r="6"/></g><g fill="#fff" opacity=".6"><circle cx="-22" cy="-44" r="1.8"/><circle cx="16" cy="-54" r="1.8"/><circle cx="0" cy="-34" r="1.8"/></g>`:'');
+ return sombra(24,8)+`<rect x="-5" y="-14" width="10" height="16" rx="4" fill="#a8744f"/><g stroke-linejoin="round" stroke-width="10"><path d="M-22 -14h44L0 -46z" fill="#3f9a6e" stroke="#3f9a6e"/><path d="M-17 -40h34L0 -68z" fill="#4dab7b" stroke="#4dab7b"/><path d="M-11 -64h22L0 -88z" fill="#5fbf8c" stroke="#5fbf8c"/></g><path d="M-6 -80l-4 12" stroke="#a5e6c2" stroke-width="4" stroke-linecap="round" opacity=".7"/>`;}
+function flor(r){const c=['#f58aa5','#fff','#f7c531','#b9a5f5','#f7a13d'][Math.floor(r*5)];let s=`<path d="M0 0v-12" stroke="#4fae6a" stroke-width="3" stroke-linecap="round"/><ellipse cx="-5" cy="-3" rx="5" ry="2.5" fill="#4fae6a"/>`;for(let i=0;i<5;i++){const a=i*1.2566;s+=`<circle cx="${(Math.cos(a)*5).toFixed(1)}" cy="${(-14+Math.sin(a)*5).toFixed(1)}" r="4.2" fill="${c}"/>`;}return s+`<circle cx="0" cy="-14" r="3" fill="${c=='#f7c531'?'#fff':'#f7c531'}"/>`;}
+const roca=()=>`<ellipse cx="0" cy="2" rx="22" ry="7" fill="#1f4a35" opacity=".18"/><path d="M-20 0q-4-20 12-24t24 6q8 18-8 20z" fill="#b9bcc4"/><path d="M-12 -16q8-8 18-4" stroke="#fff" stroke-opacity=".6" stroke-width="4" fill="none" stroke-linecap="round"/>`;
+const arbusto=r=>`<ellipse cx="0" cy="2" rx="26" ry="7" fill="#1f4a35" opacity=".18"/><circle cx="-14" cy="-10" r="14" fill="#57b872"/><circle cx="14" cy="-10" r="14" fill="#57b872"/><circle cx="0" cy="-18" r="16" fill="#66c47d"/><g fill="${r>.5?'#f58aa5':'#fff'}"><circle cx="-10" cy="-14" r="3"/><circle cx="8" cy="-22" r="3"/><circle cx="14" cy="-8" r="3"/></g>`;
+
+function maria(){return `<ellipse cx="0" cy="0" rx="17" ry="5" fill="#1f4a35" opacity=".22"/><g class="bob"><image href="personaje.png" x="-36" y="-89" width="72" height="92" preserveAspectRatio="xMidYMax meet"/></g>`;}
+function vecino(n){const {t,c,p,r}=n;let o=`<ellipse cx="0" cy="1" rx="18" ry="5.500" fill="#1f4a35" opacity=".25"/><g class="bob">`;
+ o+=`<rect x="-10" y="-11" width="8" height="11" rx="4" fill="${c}"/><rect x="2" y="-11" width="8" height="11" rx="4" fill="${c}"/>`;
+ if(t=='oso')o+=`<circle cx="-18" cy="-64" r="9" fill="${c}"/><circle cx="18" cy="-64" r="9" fill="${c}"/><circle cx="-18" cy="-64" r="4.500" fill="${p}"/><circle cx="18" cy="-64" r="4.500" fill="${p}"/>`;
+ if(t=='conejo')o+=`<ellipse cx="-10" cy="-80" rx="7" ry="18" fill="${c}" transform="rotate(-8 -10 -80)"/><ellipse cx="10" cy="-80" rx="7" ry="18" fill="${c}" transform="rotate(8 10 -80)"/><ellipse cx="-10" cy="-79" rx="3" ry="11" fill="#ffc2cf" transform="rotate(-8 -10 -80)"/><ellipse cx="10" cy="-79" rx="3" ry="11" fill="#ffc2cf" transform="rotate(8 10 -80)"/>`;
+ o+=`<ellipse cx="-15" cy="-22" rx="4.500" ry="8" fill="${c}" transform="rotate(20 -15 -22)"/><ellipse cx="15" cy="-22" rx="4.500" ry="8" fill="${c}" transform="rotate(-20 15 -22)"/>`;
+ o+=`<path d="M-14 -8q-3-22 14-24q17 2 14 24q-14 5-28 0z" fill="${r}"/><path d="M-6 -30l6 6 6-6" fill="none" stroke="#fff" stroke-width="2.500" stroke-linecap="round" stroke-linejoin="round"/>`;
+ o+=`<ellipse cx="0" cy="-46" rx="25" ry="21.500" fill="${c}"/><ellipse cx="0" cy="-46" rx="25" ry="21.500" fill="url(#bola)" opacity=".6"/>`;
+ if(t=='rana')o+=`<circle cx="-13" cy="-63" r="9.500" fill="${c}"/><circle cx="13" cy="-63" r="9.500" fill="${c}"/><circle cx="-13" cy="-63" r="6.500" fill="#fff"/><circle cx="13" cy="-63" r="6.500" fill="#fff"/><circle cx="-13" cy="-62" r="3.200" fill="#3b2a20"/><circle cx="13" cy="-62" r="3.200" fill="#3b2a20"/><path d="M-11 -40q11 9 22 0" stroke="#3b7a3a" stroke-width="2.200" fill="none" stroke-linecap="round"/>`;
+ else{o+=`<circle cx="-10.500" cy="-48" r="3.200" fill="#3b2a20"/><circle cx="10.500" cy="-48" r="3.200" fill="#3b2a20"/><circle cx="-9.500" cy="-49.200" r="1.100" fill="#fff"/><circle cx="11.500" cy="-49.200" r="1.100" fill="#fff"/>`;
+  if(t=='pato')o+=`<path d="M-4 -68q4-10 9-2" stroke="${c}" stroke-width="5" fill="none" stroke-linecap="round"/><ellipse cx="0" cy="-39" rx="10" ry="5.500" fill="#f7a13d"/><path d="M-7 -39q7 3 14 0" stroke="#d9822a" stroke-width="1.500" fill="none"/>`;
+  else o+=`<ellipse cx="0" cy="-39" rx="10" ry="7.500" fill="${p}"/><ellipse cx="0" cy="-42" rx="3.200" ry="2.200" fill="#3b2a20"/><path d="M-3 -37q3 2.500 6 0" stroke="#3b2a20" stroke-width="1.500" fill="none" stroke-linecap="round"/>`;}
+ return o+`<ellipse cx="-18" cy="-39" rx="4.500" ry="2.800" fill="#ff8fa3" opacity=".55"/><ellipse cx="18" cy="-39" rx="4.500" ry="2.800" fill="#ff8fa3" opacity=".55"/></g>`;}
+
+/* ============================================================
+   MUNDO
+   ============================================================ */
+const NS='http://www.w3.org/2000/svg',svg=document.getElementById('mundo'),suelo=document.getElementById('suelo'),ents=document.getElementById('ents');
+/* Dónde está cada sitio en la isla (x, y de la puerta) */
+const POS={plaza:[820,720],casa:[800,400],sentia:[500,520],loewe:[430,800],stand:[600,1060],cv:[840,1090],bimba:[1450,430],sifur:[1580,720],vuelta:[1420,980],correos:[1250,760],muelle:[1752,884],p1:[600,335],p2:[1010,470],p3:[1650,520]};
+LUGARES.forEach(p=>{[p.x,p.y]=POS[p.id];});
+const L=id=>LUGARES.find(p=>p.id==id);L('muelle').hw=22;
+const ESC=1.3;
+const ALTO={casa:134,tienda:94,burger:128,pagoda:138,taller:94,invernadero:104,meta:132,ayto:150,correos:112,parcela:94,plaza:92,muelle:108};
+EDIF.muelle=p=>sombra(30,9)+`<path d="M-18 0L-12 -72H12L18 0Z" fill="#fff8e6"/><path d="M-16.500 -20h33l-1.800-22h-29.400z" fill="#4aa7d6"/><path d="M-18 0L-12 -72H12L18 0Z" fill="url(#shade)"/><rect x="-16" y="-88" width="32" height="18" rx="5" fill="#ffe89a"/><rect x="-19" y="-73" width="38" height="6" rx="3" fill="#4aa7d6"/><path d="M-20 -88L0 -108L20 -88Z" fill="#4aa7d6" stroke="#4aa7d6" stroke-width="6" stroke-linejoin="round"/>`+puerta(0,'#c98a5b',16,22);
+const placa=p=>{if(p.tipo=='parcela')return'';const w=p.nombre.length*9.5+38,y=-(ALTO[p.tipo]+24);
+ return `<g transform="translate(0,${y})"><path d="M${-w/2+16} 14v10M${w/2-16} 14v10" stroke="#a8744f" stroke-width="3" stroke-linecap="round"/><rect x="${-w/2}" y="-17" width="${w}" height="34" rx="17" fill="#fff8e6" stroke="${p.color}" stroke-width="3.500"/><circle cx="${-w/2+13}" cy="0" r="4" fill="${p.color}"/><circle cx="${w/2-13}" cy="0" r="4" fill="${p.color}"/><text x="0" y="5.500" text-anchor="middle" font-size="15" font-weight="600" fill="#6b5a45" font-family="Fredoka,sans-serif">${p.nombre}</text></g>`;};
+const montana=`<ellipse cx="0" cy="8" rx="170" ry="26" fill="#1f4a35" opacity=".2"/><path d="M-160 14Q-158 -70 -92 -96Q-60 -150 0 -146Q64 -160 96 -100Q160 -84 160 14Z" fill="#a7ab9c"/><path d="M-160 14Q-158 -70 -92 -96Q-60 -150 0 -146Q64 -160 96 -100Q160 -84 160 14Z" fill="url(#shade)"/><path d="M-150 -34Q-140 -80 -92 -96Q-60 -150 0 -146Q64 -160 96 -100Q146 -88 152 -40Q110 -64 60 -52Q20 -70 -30 -54Q-90 -66 -150 -34Z" fill="#7fca70"/><path d="M-110 -70Q-80 -100 -50 -84" stroke="#a6e294" stroke-width="7" fill="none" stroke-linecap="round" opacity=".8"/><path d="M-90 -10l14-18 12 12M70 -4l16-22 14 16" stroke="#8d917f" stroke-width="5" fill="none" stroke-linecap="round" stroke-linejoin="round"/><rect x="-22" y="-62" width="44" height="78" rx="8" fill="#8fdfe3"/><path d="M-10 -56v62M4 -58v66M14 -52v54" stroke="#fff" stroke-width="4" stroke-linecap="round" opacity=".8"/><g fill="#fff"><circle cx="-20" cy="16" r="12"/><circle cx="0" cy="20" r="14"/><circle cx="20" cy="16" r="12"/></g>`;
+
+const ISLA='M330 420C300 250 520 170 700 190C820 120 1010 140 1100 200C1250 150 1500 170 1640 300C1790 400 1830 560 1770 700C1840 820 1780 1010 1640 1080C1560 1200 1380 1230 1260 1170C1180 1260 980 1290 860 1230C700 1290 480 1250 400 1120C250 1040 200 860 260 740C180 620 230 480 330 420Z';
+const RIO='M1185 300C1160 380 1255 440 1210 560C1170 680 1060 720 1080 860C1100 1000 1010 1100 1040 1275';
+const CAMINOS=[[820,720,790,560,800,414],[820,720,640,600,500,534],[820,720,620,790,430,814],[820,720,700,900,600,1074],[820,720,850,900,840,1104],[820,720,980,690,1122,702],[1122,702,1190,715,1250,778],[1250,782,1420,800,1580,738],[1401,784,1400,600,1450,446],[1401,784,1385,890,1420,1004],[1580,740,1690,790,1740,884]];
+const dCam=CAMINOS.map(c=>`M${c[0]} ${c[1]}Q${c[2]} ${c[3]} ${c[4]} ${c[5]}`).join('');
+const muestras=[];CAMINOS.forEach(c=>{for(let t=0;t<=1.001;t+=.08)muestras.push([(1-t)*(1-t)*c[0]+2*t*(1-t)*c[2]+t*t*c[4],(1-t)*(1-t)*c[1]+2*t*(1-t)*c[3]+t*t*c[5]]);});
+suelo.innerHTML=`
+ <path d="${ISLA}" fill="none" stroke="#fff" stroke-opacity=".55" stroke-width="170" stroke-linejoin="round"/>
+ <path d="${ISLA}" fill="none" stroke="#e6cd94" stroke-width="140" stroke-linejoin="round"/>
+ <path d="${ISLA}" fill="#f7e6b4" stroke="#f7e6b4" stroke-width="118" stroke-linejoin="round"/>
+ <path d="${ISLA}" fill="#62b660" stroke="#62b660" stroke-width="14" stroke-linejoin="round" transform="translate(0,10)"/>
+ <path id="isla" d="${ISLA}" fill="#93d982"/><path d="${ISLA}" fill="url(#hierba)"/>
+ <g fill="#a9e596" opacity=".55"><ellipse cx="640" cy="770" rx="170" ry="90"/><ellipse cx="1500" cy="610" rx="170" ry="80"/><ellipse cx="720" cy="300" rx="190" ry="70"/><ellipse cx="1280" cy="1050" rx="150" ry="70"/></g>
+ <path id="rio" d="${RIO}" fill="none" stroke="#fff8e6" stroke-opacity=".75" stroke-width="66" stroke-linecap="round"/>
+ <path d="${RIO}" fill="none" stroke="#6fcfd6" stroke-width="50" stroke-linecap="round"/>
+ <path d="${RIO}" fill="none" stroke="#b5ecec" stroke-width="5" stroke-linecap="round" stroke-dasharray="26 40" transform="translate(-9,0)"><animate attributeName="stroke-dashoffset" from="66" to="0" dur="2.6s" repeatCount="indefinite"/></path>
+ <path d="${RIO}" fill="none" stroke="#b5ecec" stroke-width="5" stroke-linecap="round" stroke-dasharray="18 48" transform="translate(10,0)"><animate attributeName="stroke-dashoffset" from="66" to="0" dur="3.4s" repeatCount="indefinite"/></path>
+ <path d="${dCam}" fill="none" stroke="#dcc48c" stroke-width="44" stroke-linecap="round"/>
+ <path d="${dCam}" fill="none" stroke="#efdcab" stroke-width="34" stroke-linecap="round"/>
+ <path d="${dCam}" fill="none" stroke="#fff8e6" stroke-width="13" stroke-linecap="round" stroke-dasharray="1 30"/>
+ <circle cx="820" cy="726" r="106" fill="#d9be84"/><circle cx="820" cy="720" r="100" fill="#f6e6bd"/><circle cx="820" cy="720" r="100" fill="url(#losa)"/><circle cx="820" cy="720" r="46" fill="#93d982"/><circle cx="820" cy="720" r="46" fill="none" stroke="#fff8e6" stroke-width="7"/>
+ <g transform="translate(1122,702) rotate(-6)"><rect x="-58" y="-24" width="116" height="54" rx="8" fill="#b98558"/><rect x="-58" y="-28" width="116" height="52" rx="8" fill="#d7a878"/><path d="M-36 -28v52M-12 -28v52M12 -28v52M36 -28v52" stroke="#b98558" stroke-width="3"/><path d="M-58 -28h116M-58 24h116" stroke="#fff8e6" stroke-width="7" stroke-linecap="round"/></g>
+ <g><rect x="1770" y="866" width="150" height="50" rx="6" fill="#b98558"/><rect x="1770" y="862" width="150" height="46" rx="6" fill="#d7a878"/><path d="M1800 862v46M1830 862v46M1860 862v46M1890 862v46" stroke="#b98558" stroke-width="3"/><g fill="#8a5f3e"><circle cx="1920" cy="864" r="7"/><circle cx="1920" cy="908" r="7"/><circle cx="1850" cy="864" r="7"/><circle cx="1850" cy="908" r="7"/></g></g>
+ <g transform="translate(1900,990)"><g><animateTransform attributeName="transform" type="translate" values="0 0;0 5;0 0" dur="3s" repeatCount="indefinite"/><path d="M-36 0h72l-12 22h-48z" fill="#f58aa5"/><path d="M-36 0h72l-3 6h-66z" fill="#fff"/><path d="M0 0v-48l26 34z" fill="#fff8e6"/><path d="M0 -48v48" stroke="#a8744f" stroke-width="4"/></g></g>`;
+const isla=document.getElementById('isla'),rio=document.getElementById('rio');
+const enIsla=(x,y)=>isla.isPointInFill(new DOMPoint(x,y));
+const agua=[];for(let l=0,T=rio.getTotalLength();l<=T;l+=28){const q=rio.getPointAtLength(l);agua.push([q.x,q.y]);}
+
+const lista=[];
+function ent(html,x,y,o={}){const g=document.createElementNS(NS,'g');g.setAttribute('transform',`translate(${x},${y})`);if(o.cls)g.setAttribute('class',o.cls);if(o.id)g.dataset.id=o.id;g.innerHTML=`<g class="in"><g transform="scale(${o.s||1})">${html}</g></g>`;lista.push({el:g,y});return g;}
+ent(montana,1185,300);
+LUGARES.forEach(p=>{
+ p.el=ent(EDIF[p.tipo](p)+placa(p),p.x,p.y,{cls:'edif',id:p.id,s:ESC});
+ if(p.npc){const lado=(p.tipo=='taller'||p.tipo=='correos'||p.tipo=='tienda'||p.tipo=='invernadero')?-1:1;ent(vecino(p.npc),p.x+lado*(p.hw*ESC+34),p.y+20,{cls:'npc',id:p.id,s:1.15});}
+});
+ent(maria(),872,772,{cls:'npc',id:'plaza',s:1.2});
+
+/* Decoración sembrada (siempre sale igual) */
+let sem=20261110;const rnd=()=>{sem|=0;sem=sem+0x6D2B79F5|0;let t=Math.imul(sem^sem>>>15,1|sem);t=t+Math.imul(t^t>>>7,61|t)^t;return((t^t>>>14)>>>0)/4294967296;};
+const libre=(x,y,m,mc)=>enIsla(x,y)&&enIsla(x-m,y)&&enIsla(x+m,y)&&enIsla(x,y-m*1.7)&&enIsla(x,y+m*.6)
+ &&LUGARES.every(p=>Math.abs(p.x-x)>(p.hw+34)*ESC+m||y<p.y-230||y>p.y+70+m*2.6)
+ &&muestras.every(q=>Math.hypot(q[0]-x,q[1]-y)>mc)&&agua.every(q=>Math.hypot(q[0]-x,q[1]-y)>mc+16)
+ &&Math.hypot(x-820,y-720)>150&&!(Math.abs(x-1185)<190&&y>120&&y<350);
+const puestos=[];
+function sembrar(n,m,mc,sep,f){let c=0,i=0;while(c<n&&i++<5000){const x=240+rnd()*1560,y=190+rnd()*1080;if(!libre(x,y,m,mc)||puestos.some(q=>Math.hypot(q[0]-x,(q[1]-y)*1.4)<sep))continue;puestos.push([x,y]);f(x,y);c++;}}
+sembrar(44,50,66,80,(x,y)=>ent(arbol(rnd(),rnd()),x,y,{s:1.2}));
+sembrar(12,30,52,62,(x,y)=>ent(arbusto(rnd()),x,y));
+sembrar(8,26,52,62,(x,y)=>ent(roca(),x,y));
+sembrar(110,12,34,24,(x,y)=>ent(flor(rnd()),x,y,{s:1.1}));
+lista.sort((a,b)=>a.y-b.y).forEach(e=>ents.appendChild(e.el));
+
+/* ============================================================
+   CÁMARA: arrastrar, zoom y viaje a un edificio
+   ============================================================ */
+const C={x:1000,y:700,z:0};let vw,vh,zmin,abierto=false,anim=0;
+const movil=()=>vw<=640;
+function medir(){vw=innerWidth;vh=innerHeight;zmin=Math.min(vw/1900,vh/1300);if(!C.z){C.z=Math.max(zmin,vh/1400*.75);if(movil()){C.x=820;C.y=640;}}aplicar();}
+function aplicar(){C.z=Math.max(zmin,Math.min(Math.max(zmin*3.4,1.5),C.z));const w=vw/C.z,h=vh/C.z,pr=abierto&&!movil()?480/C.z:0,pb=abierto&&movil()?vh*.62/C.z:0;
+ C.x=Math.max(Math.min(w/2,1000),Math.min(Math.max(2000-w/2,1000)+pr,C.x));C.y=Math.max(Math.min(h/2,700),Math.min(Math.max(1400-h/2,700)+pb,C.y));
+ svg.setAttribute('viewBox',`${(C.x-w/2).toFixed(1)} ${(C.y-h/2).toFixed(1)} ${w.toFixed(1)} ${h.toFixed(1)}`);}
+function irA(x,y,z,ms=650){cancelAnimationFrame(anim);const a={x:C.x,y:C.y,z:C.z},t0=performance.now();
+ const f=t=>{let k=Math.min(1,(t-t0)/ms);k=k<.5?2*k*k:1-Math.pow(-2*k+2,2)/2;C.z=a.z+(z-a.z)*k;C.x=a.x+(x-a.x)*k;C.y=a.y+(y-a.y)*k;aplicar();if(k<1)anim=requestAnimationFrame(f);};anim=requestAnimationFrame(f);}
+function zoomEn(f,sx=vw/2,sy=vh/2){cancelAnimationFrame(anim);const wx=C.x+(sx-vw/2)/C.z,wy=C.y+(sy-vh/2)/C.z;C.z*=f;aplicar();C.x=wx-(sx-vw/2)/C.z;C.y=wy-(sy-vh/2)/C.z;aplicar();}
+addEventListener('resize',medir);
+const dedos=new Map();let arr=null,movido=false,pellizco=null;
+svg.addEventListener('pointerdown',e=>{cancelAnimationFrame(anim);dedos.set(e.pointerId,[e.clientX,e.clientY]);
+ if(dedos.size==1){movido=false;arr={x:e.clientX,y:e.clientY,cx:C.x,cy:C.y,t:e.target};}
+ if(dedos.size==2){const[a,b]=[...dedos.values()];pellizco={d:Math.hypot(a[0]-b[0],a[1]-b[1]),z:C.z};movido=true;}
+ try{svg.setPointerCapture(e.pointerId);}catch(_){}});
+svg.addEventListener('pointermove',e=>{if(!dedos.has(e.pointerId))return;dedos.set(e.pointerId,[e.clientX,e.clientY]);
+ if(dedos.size==2&&pellizco){const[a,b]=[...dedos.values()];zoomEn(pellizco.z*Math.hypot(a[0]-b[0],a[1]-b[1])/pellizco.d/C.z,(a[0]+b[0])/2,(a[1]+b[1])/2);return;}
+ if(!arr)return;const dx=e.clientX-arr.x,dy=e.clientY-arr.y;if(Math.hypot(dx,dy)>6)movido=true;if(movido){C.x=arr.cx-dx/C.z;C.y=arr.cy-dy/C.z;aplicar();}});
+function suelta(e){if(!dedos.has(e.pointerId))return;dedos.delete(e.pointerId);if(dedos.size<2)pellizco=null;
+ if(dedos.size==0){if(!movido&&arr){const g=arr.t.closest&&arr.t.closest('[data-id]');if(g)elegir(L(g.dataset.id));else if(abierto)cerrar();}arr=null;}
+ else{const[q]=[...dedos.values()];arr={x:q[0],y:q[1],cx:C.x,cy:C.y,t:svg};}}
+svg.addEventListener('pointerup',suelta);svg.addEventListener('pointercancel',suelta);
+svg.addEventListener('wheel',e=>{e.preventDefault();zoomEn(Math.exp(-e.deltaY*.0016),e.clientX,e.clientY);},{passive:false});
+document.getElementById('zMas').onclick=()=>zoomEn(1.3);
+document.getElementById('zMenos').onclick=()=>zoomEn(1/1.3);
+addEventListener('keydown',e=>{if(e.key=='Escape')cerrar();});
+
+/* ============================================================
+   PANEL de cada sitio
+   ============================================================ */
+const panel=document.getElementById('panel');
+const esc_=s=>String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+function mostrar(html,color){panel.innerHTML=`<button class="volver">← Volver al mapa</button>`+html;panel.style.setProperty('--c',color);panel.style.display='none';void panel.offsetWidth;panel.style.display='block';panel.scrollTop=0;abierto=true;panel.querySelector('.volver').onclick=cerrar;}
+function cerrar(){panel.style.display='none';abierto=false;document.querySelectorAll('.edif.activo').forEach(n=>n.classList.remove('activo'));aplicar();}
+function elegir(p){document.querySelectorAll('.edif.activo').forEach(n=>n.classList.remove('activo'));p.el.classList.add('activo');
+ if(p.ficha=='menu')menu(false,p);else ficha(p);
+ const z=Math.max(C.z,movil()?vh/1400*1.25:Math.max(zmin*1.9,.95));
+ irA(movil()?p.x:p.x+235/z,movil()?p.y-90+vh*.3/z:p.y-90,z);}
+function avatar(p){if(p.npc)return `<svg viewBox="-36 -104 72 110">${vecino(p.npc)}</svg>`;if(p.habla=='María')return `<svg viewBox="-36 -92 72 98">${maria()}</svg>`;return'';}
+function ficha(p){const f=p.ficha||{titulo:p.nombre,pre:p.sub};
+ const habla=`<div class="habla">${avatar(p)}<p><b>${esc_(p.habla)}</b>${esc_(p.lineas.join(' '))}</p></div>`;
+ const resto=p.ficha?`<div class="foto" style="position:relative;overflow:hidden">${p.sub=='Proyecto'?`<img src="portadas/${p.id}.jpg" alt="Portada de ${esc_(f.titulo)}" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover" onerror="this.remove()">`:''}Aquí irán las imágenes de<br>«${esc_(f.titulo)}»</div>`+(f.txt?`<p>${esc_(f.txt)}</p>`:'')+(f.exp?`<ul class="exp">${f.exp.map(e=>`<li><b>${esc_(e[0])}</b>${esc_(e[1])}</li>`).join('')}</ul>`:'')+(f.tags?`<ul class="chips">${f.tags.map(t=>`<li>${esc_(t)}</li>`).join('')}</ul>`:'')+`<a class="btn" href="${f.url}" target="_blank" rel="noopener">${esc_(f.cta||'Ver el proyecto completo')}</a>`:'';
+ mostrar(`<header><small>${esc_(f.pre)}</small><h2>${esc_(f.titulo)}</h2></header><div class="pc">${habla}${resto}</div>`,p.color);}
+function menu(rapido,p){const it=LUGARES.filter(q=>q.ficha&&q.ficha!='menu'&&(!rapido||q.sub=='Proyecto'));
+ const habla=p?`<div class="habla">${avatar(p)}<p><b>${esc_(p.habla)}</b>${esc_(p.lineas.join(' '))}</p></div>`:'';
+ mostrar(`<header><small>${rapido?'Sin pasear':'La isla de María'}</small><h2>${rapido?'Portafolio rápido':'¿A dónde vamos?'}</h2></header><div class="pc">${habla}<div class="lista">${it.map(q=>`<button class="chip" data-ir="${q.id}">${esc_(rapido?q.ficha.titulo:q.nombre)}<small>${esc_(rapido?q.ficha.pre:q.sub)}</small></button>`).join('')}</div></div>`,rapido?'#f58aa5':'#3fb58f');
+ panel.querySelectorAll('[data-ir]').forEach(b=>b.onclick=()=>elegir(L(b.dataset.ir)));}
+document.getElementById('btnMapa').onclick=()=>{cerrar();irA(1000,700,zmin);};
+document.getElementById('btnRapido').onclick=()=>menu(true);
+
+/* Reloj y luz del día */
+function reloj(){const d=new Date(),h=d.getHours();document.getElementById('fecha').textContent=d.toLocaleDateString('es-ES',{weekday:'short',day:'numeric',month:'short'});document.getElementById('hora').textContent=d.toLocaleTimeString('es-ES',{hour:'2-digit',minute:'2-digit'});
+ const c=document.getElementById('cielo');if(h>=21||h<6){c.setAttribute('fill','#1b2a5a');c.setAttribute('opacity','.38');}else if(h>=18){c.setAttribute('fill','#ff8a4a');c.setAttribute('opacity','.16');}else if(h<8){c.setAttribute('fill','#ffd9a0');c.setAttribute('opacity','.14');}else c.setAttribute('fill','none');}
+reloj();setInterval(reloj,20000);
+medir();
+</script>
+</body>
+</html>

@@ -1,0 +1,361 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>La isla de María · Portafolio</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600&family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root{--fondo:#ece4cd;--carta:#f9f4e5;--caja:#f0e8d2;--borde:#e2d6b8;--verde:#445c3d;--verde2:#6f8c57;--verde3:#a9bf8c;--tinta:#3d4835;--suave:#7b8368;--oro:#dfa63a;--madera:#8a6238;--rosa:#e9a3a0}
+  *{box-sizing:border-box}
+  html,body{margin:0;min-height:100%}
+  body{background:var(--fondo);color:var(--tinta);font-family:Nunito,'Trebuchet MS',sans-serif;font-size:14px;line-height:1.45;display:grid;grid-template-columns:230px 1fr;min-height:100vh}
+  h1,h2,h3,.serif{font-family:Fraunces,Georgia,serif;font-weight:600;margin:0}
+  button{font:inherit;color:inherit;border:0;background:none;cursor:pointer;padding:0;text-align:left}
+  a{color:inherit}
+  :focus-visible{outline:3px solid var(--oro);outline-offset:2px}
+  .hoja{width:16px;height:16px;flex:none;fill:var(--verde2)}
+
+  /* ---------- Barra lateral ---------- */
+  aside{background:var(--verde);background-image:radial-gradient(circle at 20% 10%,rgba(255,255,255,.06) 0 40px,transparent 41px),radial-gradient(circle at 90% 60%,rgba(255,255,255,.05) 0 60px,transparent 61px);color:#f4eed9;padding:18px 14px;display:flex;flex-direction:column;gap:14px;position:sticky;top:0;height:100vh;overflow:auto}
+  .cartel{background:linear-gradient(#a17647,#7d5731);border-radius:14px;padding:12px 10px 14px;text-align:center;box-shadow:inset 0 0 0 2px rgba(255,255,255,.12),0 4px 0 rgba(0,0,0,.18);position:relative}
+  .cartel small{display:block;font-size:11px;opacity:.9}
+  .cartel b{display:block;font-family:Fraunces,serif;font-size:26px;line-height:1;margin:2px 0}
+  nav{display:flex;flex-direction:column;gap:4px}
+  nav button,nav a{display:flex;align-items:center;gap:12px;padding:9px 14px;border-radius:999px;font-weight:700;font-size:15px;text-decoration:none;width:100%}
+  nav svg{width:20px;height:20px;flex:none;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+  nav button:hover,nav a:hover{background:rgba(255,255,255,.1)}
+  nav .activo,nav .activo:hover{background:#f6f0dc;color:var(--verde)}
+  .pie{margin-top:auto;display:flex;flex-direction:column;align-items:flex-start;gap:0}
+  .pie svg{width:96px;margin-left:6px;margin-bottom:-6px;position:relative}
+  .consejo{background:rgba(255,255,255,.1);border-radius:14px;padding:12px 14px;font-size:13px;width:100%}
+  .consejo b{display:block;text-align:center;margin-bottom:4px}
+
+  /* ---------- Zona principal ---------- */
+  main{padding:18px;min-width:0;display:flex;flex-direction:column;gap:14px}
+  .banner{position:relative;border-radius:22px;overflow:hidden;min-height:150px;background:#eef0dc;display:flex;align-items:center;padding:20px 26px}
+  .banner>svg{position:absolute;inset:0;width:100%;height:100%}
+  .banner::after{content:"";position:absolute;inset:0;background:linear-gradient(90deg,#f3eedb 0,#f3eedb 30%,rgba(243,238,219,0) 62%)}
+  .saludo{position:relative;z-index:1}
+  .saludo h1{font-size:clamp(26px,3.2vw,38px);display:flex;align-items:center;gap:10px}
+  .saludo h1 .hoja{width:26px;height:26px}
+  .saludo p{margin:6px 0 0;font-size:15px;color:var(--suave);font-weight:600}
+  .hoy{position:absolute;z-index:1;top:14px;right:14px;background:rgba(249,244,229,.92);border-radius:16px;padding:8px 10px 8px 14px;display:flex;gap:12px;align-items:center;font-weight:700;font-size:13px}
+  .hoy div span{display:block}
+  .hoy svg{width:52px;height:52px;border-radius:50%;background:#dfe7c8;flex:none}
+
+  .rejilla{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px}
+  .carta{background:var(--carta);border:1px solid var(--borde);border-radius:22px;padding:14px 16px 16px;box-shadow:0 3px 0 rgba(90,70,30,.07);min-width:0;display:flex;flex-direction:column;gap:10px}
+  .carta>header{display:flex;align-items:center;gap:8px}
+  .carta>header h2{font-size:18px;flex:1}
+  .carta>header button,.carta>header a{font-size:12px;font-weight:700;color:var(--suave);text-decoration:none}
+  .carta>header button:hover,.carta>header a:hover{color:var(--verde);text-decoration:underline}
+  .caja{background:var(--caja);border-radius:14px;padding:10px 12px}
+  .caja small{display:block;font-size:11px;color:var(--suave);font-weight:700}
+  .caja b{font-size:14px}
+  .ancha{grid-column:1/-1}
+
+  /* Sobre mí */
+  .dos{display:grid;grid-template-columns:1fr 1.15fr;gap:10px;flex:1}
+  .col{display:flex;flex-direction:column;gap:8px}
+  .punto{display:inline-block;width:9px;height:9px;border-radius:50%;background:#6fae4e;margin-right:6px}
+  .cal{font-size:11px;text-align:center}
+  .cal b{display:block;font-size:12px;margin-bottom:4px}
+  .cal div{display:grid;grid-template-columns:repeat(7,1fr);gap:2px 0}
+  .cal i{font-style:normal;padding:2px 0;border-radius:50%}
+  .cal i.d{color:var(--suave);font-weight:800}
+  .cal i.h{background:var(--verde);color:#fff;font-weight:800}
+  .nota{display:flex;gap:8px;align-items:center;font-size:12px;font-weight:600}
+  .nota svg{width:38px;flex:none}
+
+  /* Barras */
+  .barras{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:9px;flex:1;justify-content:space-between}
+  .barras li{display:grid;grid-template-columns:1fr auto;gap:2px 10px;font-weight:700}
+  .barras span:nth-child(2){color:var(--suave);font-size:12px}
+  .barra{grid-column:1/-1;height:6px;border-radius:99px;background:#e3d9bd;overflow:hidden}
+  .barra i{display:block;height:100%;border-radius:99px;background:var(--verde2)}
+
+  /* Imagen de proyecto (hueco hasta tener las reales) */
+  .foto{border-radius:14px;min-height:150px;flex:1;background:repeating-linear-gradient(135deg,rgba(255,255,255,.28) 0 12px,transparent 12px 24px),var(--c,#9db87f);display:grid;place-items:center;color:#fff;font-weight:800;text-align:center;padding:12px;width:100%}
+  .foto{position:relative;overflow:hidden}
+  .foto img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+  button.foto:hover{filter:brightness(1.05)}
+  .pieFoto b{display:block}.pieFoto small{color:var(--suave)}
+
+  /* Proyectos (fichitas) */
+  .fichas{display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:8px}
+  .ficha{display:flex;flex-direction:column;align-items:center;gap:4px;font-size:11px;font-weight:700;text-align:center;line-height:1.2}
+  .ficha span{width:100%;aspect-ratio:1;border-radius:12px;background:var(--caja);display:grid;place-items:center;transition:transform .15s}
+  .ficha:hover span{transform:translateY(-3px);background:#e8dfc4}
+  .ficha svg{width:70%;height:70%}
+  .meta{display:flex;gap:12px;align-items:center}
+  .meta>div{flex:1}
+
+  /* Mini mapa */
+  .mini{display:block;border-radius:14px;overflow:hidden;flex:1;min-height:150px;background:#a9d3cc;position:relative}
+  .mini svg{position:absolute;inset:0;width:100%;height:100%}
+  .mini:hover{filter:brightness(1.04)}
+  .boton{display:inline-flex;align-items:center;gap:6px;align-self:center;background:var(--verde2);color:#fff;font-weight:800;padding:8px 20px;border-radius:999px;text-decoration:none;box-shadow:0 3px 0 #55703f}
+  .boton:hover{background:#7b9a61}
+  .boton.claro{background:var(--caja);color:var(--tinta);box-shadow:0 3px 0 var(--borde)}
+
+  /* Programas */
+  .programas{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px 6px;flex:1;align-content:center}
+  .prog{display:flex;flex-direction:column;align-items:center;gap:4px;font-size:11px;font-weight:700;text-align:center}
+  .prog i{font-style:normal;width:52px;height:52px;border-radius:50%;display:grid;place-items:center;font-family:Fraunces,serif;font-size:19px;color:#fff;background:var(--c);box-shadow:inset 0 0 0 3px rgba(255,255,255,.35)}
+
+  /* Notas / empresas */
+  .tres{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}
+  .empresa{display:flex;gap:10px;align-items:center;justify-content:space-between}
+  .empresa b{display:block;font-size:15px}
+  .empresa ul{margin:4px 0 0;padding-left:16px;font-size:12px;color:var(--suave)}
+  .empresa svg{width:44px;height:44px;flex:none}
+
+  /* Vistas del menú */
+  .vista{display:none;flex-direction:column;gap:14px}
+  .vista.activa{display:flex}
+  .titulo{display:flex;align-items:center;gap:10px;font-size:28px;margin:4px 4px 0}
+  .titulo .hoja{width:22px;height:22px}
+  .galeria{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:14px}
+  .galeria .carta{cursor:pointer;transition:transform .15s}
+  .galeria .carta:hover{transform:translateY(-4px)}
+  .galeria .foto{min-height:170px;flex:none}
+  .chips{display:flex;flex-wrap:wrap;gap:5px;margin:0;padding:0;list-style:none}
+  .chips li{background:var(--caja);border-radius:999px;padding:2px 10px;font-size:12px;font-weight:700}
+  .texto{font-size:16px;max-width:70ch;margin:0}
+
+  /* Ficha de proyecto */
+  dialog{border:0;border-radius:24px;padding:0;background:var(--carta);color:var(--tinta);width:min(760px,calc(100vw - 24px));max-height:calc(100vh - 24px);box-shadow:0 10px 0 rgba(60,50,30,.18)}
+  dialog::backdrop{background:rgba(50,65,45,.45)}
+  dialog header{background:var(--c,var(--verde2));color:#fff;padding:20px 60px 16px 24px;position:relative}
+  dialog header small{font-weight:800;letter-spacing:.05em;text-transform:uppercase;font-size:11px;opacity:.95}
+  dialog header h2{font-size:28px;line-height:1.1}
+  dialog .x{position:absolute;top:14px;right:14px;width:38px;height:38px;border-radius:50%;background:rgba(255,255,255,.3);color:#fff;font-weight:800;font-size:18px;text-align:center}
+  dialog .dentro{padding:18px 24px 24px;display:grid;grid-template-columns:1fr 1.2fr;gap:20px}
+  dialog .dentro>div{display:flex;flex-direction:column;gap:12px;align-items:flex-start}
+  dialog .foto{min-height:220px}
+
+  @media (max-width:1100px){.rejilla{grid-template-columns:repeat(2,minmax(0,1fr))}.fichas{grid-template-columns:repeat(3,minmax(0,1fr))}}
+  @media (max-width:760px){
+    body{display:block}
+    aside{position:static;height:auto;padding:12px;gap:10px}
+    .cartel{padding:8px}.cartel b{font-size:22px}
+    nav{flex-direction:row;overflow-x:auto;gap:6px;padding-bottom:4px}
+    nav button,nav a{width:auto;white-space:nowrap;padding:7px 12px;font-size:14px;gap:6px}
+    .pie{display:none}
+    main{padding:12px}
+    .rejilla,.tres{grid-template-columns:1fr}
+    .hoy{position:relative;top:auto;right:auto;margin-left:auto;display:none}
+    .banner{min-height:120px;padding:16px}
+    .banner::after{background:linear-gradient(90deg,#f3eedb 0,rgba(243,238,219,.85) 55%,rgba(243,238,219,.2))}
+    dialog .dentro{grid-template-columns:1fr}
+  }
+  @media (max-width:420px){.dos{grid-template-columns:1fr}.saludo h1{font-size:24px}}
+</style>
+</head>
+<body>
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <symbol id="hoja" viewBox="0 0 24 24"><path d="M12 2C6 5 3 10 4 16c1 3 4 5 7 5V12l2 0v9c4-1 7-4 7-9 0-4-3-8-8-10z"/></symbol>
+  <symbol id="pino" viewBox="-30 -100 60 110"><rect x="-4" y="-8" width="8" height="16" fill="#7a5a3a"/><path d="M-28 -6h56L0 -44z" fill="#4c6b46"/><path d="M-22 -34h44L0 -70z" fill="#567a4f"/><path d="M-15 -62h30L0 -96z" fill="#628a59"/></symbol>
+  <symbol id="maria" viewBox="-36 -86 72 92"><ellipse cx="0" cy="0" rx="17" ry="5" fill="#1f4a35" opacity=".22"/><g class="bob"><image href="personaje.png" x="-36" y="-85" width="72" height="90" preserveAspectRatio="xMidYMax meet"/></g></symbol>
+</svg>
+
+<aside>
+  <div class="cartel"><small>Bienvenida a</small><b>María</b><small>Portafolio · Diseño gráfico</small></div>
+  <nav aria-label="Secciones">
+    <button data-vista="inicio" class="activo"><svg viewBox="0 0 24 24"><path d="M3 11l9-8 9 8v9a1 1 0 0 1-1 1h-5v-6h-6v6H4a1 1 0 0 1-1-1z"/></svg>Inicio</button>
+    <button data-vista="sobre"><svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4 4-6 8-6s8 2 8 6"/></svg>Sobre mí</button>
+    <button data-vista="proyectos"><svg viewBox="0 0 24 24"><rect x="3" y="3" width="8" height="8" rx="2"/><rect x="13" y="3" width="8" height="8" rx="2"/><rect x="3" y="13" width="8" height="8" rx="2"/><rect x="13" y="13" width="8" height="8" rx="2"/></svg>Proyectos</button>
+    <button data-vista="experiencia"><svg viewBox="0 0 24 24"><rect x="3" y="7" width="18" height="13" rx="2"/><path d="M9 7V5a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v2M3 13h18"/></svg>Empresas</button>
+    <button data-vista="programas"><svg viewBox="0 0 24 24"><path d="M4 20l4-1L19 8l-3-3L5 16zM14 7l3 3"/></svg>Programas</button>
+    <a href="mapa.html"><svg viewBox="0 0 24 24"><path d="M3 6l6-2 6 2 6-2v14l-6 2-6-2-6 2zM9 4v14M15 6v14"/></svg>Mapa de la isla</a>
+    <button data-vista="contacto"><svg viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3 7l9 7 9-7"/></svg>Contacto</button>
+  </nav>
+  <div class="pie">
+    <svg viewBox="-36 -86 72 92"><use href="#maria" x="-36" y="-86" width="72" height="92"/></svg>
+    <div class="consejo"><b>Consejo del día</b><span id="consejo"></span></div>
+  </div>
+</aside>
+
+<main>
+  <!-- ================= INICIO ================= -->
+  <section class="vista activa" id="v-inicio">
+    <div class="banner">
+      <svg viewBox="0 0 900 180" preserveAspectRatio="xMaxYMid slice" aria-hidden="true">
+        <rect width="900" height="180" fill="#eef0dc"/>
+        <path d="M300 120q80-50 170-30 70-40 150-10 90-40 180 0 60-20 100 10v90H300z" fill="#d3dcbd"/>
+        <path d="M380 140q90-40 180-16 110-30 200-4 80-20 140 6v54H380z" fill="#b9cb9f"/>
+        <ellipse cx="820" cy="158" rx="130" ry="26" fill="#bcd8d2"/>
+        <path d="M740 150q30-6 60 0M800 164q30-6 60 0" stroke="#fff" stroke-width="2.500" fill="none" stroke-linecap="round" opacity=".8"/>
+        <path d="M420 180q120-50 300-34 60 6 90 34z" fill="#9db87f"/>
+        <use href="#pino" x="520" y="34" width="56" height="103"/><use href="#pino" x="566" y="20" width="66" height="121"/><use href="#pino" x="622" y="40" width="52" height="95"/><use href="#pino" x="470" y="60" width="44" height="81"/>
+        <g transform="translate(720,138)"><path d="M-52 0L0 -58L52 0Z" fill="#7c8c4f"/><path d="M0 -58L52 0H14Z" fill="#69793f"/><path d="M-12 0L0 -30L12 0Z" fill="#4c5a2e"/><path d="M0 -58v-10M-52 0l-12 6M52 0l12 6" stroke="#7a5a3a" stroke-width="2.500" stroke-linecap="round"/></g>
+        <g transform="translate(850,150)"><path d="M-22 0h44l-7 10h-30z" fill="#8a6238"/><path d="M0 0v-26l14 20z" fill="#f6f0dc"/></g>
+        <g fill="#f3d27a"><circle cx="460" cy="160" r="3"/><circle cx="500" cy="168" r="3"/><circle cx="640" cy="162" r="3"/></g><g fill="#e9a3a0"><circle cx="480" cy="170" r="3"/><circle cx="600" cy="170" r="3"/><circle cx="680" cy="168" r="3"/></g>
+      </svg>
+      <div class="saludo">
+        <h1><svg class="hoja"><use href="#hoja"/></svg>¡Hola, soy María!</h1>
+        <p>Diseñadora gráfica · ilustración digital, diseño editorial y 3D</p>
+      </div>
+      <div class="hoy"><div><span id="fecha"></span><span id="estacion"></span><span id="hora"></span></div><svg viewBox="10 -6 92 92"><image href="personaje.png" width="100" height="157.5"/></svg></div>
+    </div>
+
+    <div class="rejilla">
+      <article class="carta">
+        <header><svg class="hoja"><use href="#hoja"/></svg><h2>Sobre mí</h2><button data-vista="sobre">Ver todo</button></header>
+        <div class="dos">
+          <div class="col">
+            <div class="caja"><small>Estado</small><b><span class="punto"></span>Disponible</b><small>a tiempo completo</small></div>
+            <div class="caja"><small>Ubicación</small><b>España</b></div>
+            <div class="caja"><small>Proyectos</small><b id="nProy"></b></div>
+          </div>
+          <div class="col">
+            <div class="caja cal" id="cal"></div>
+            <div class="caja nota"><svg viewBox="-36 -86 72 92"><use href="#maria" x="-36" y="-86" width="72" height="92"/></svg>Abierta a nuevos proyectos y colaboraciones.</div>
+          </div>
+        </div>
+      </article>
+
+      <article class="carta">
+        <header><svg class="hoja"><use href="#hoja"/></svg><h2>Lo que hago</h2><button data-vista="proyectos">Ver todo</button></header>
+        <ul class="barras" id="barras"></ul>
+      </article>
+
+      <article class="carta">
+        <header><svg class="hoja"><use href="#hoja"/></svg><h2>Último proyecto</h2><button data-vista="proyectos">Ver todos</button></header>
+        <button class="foto" id="ultimoFoto"></button>
+        <div class="pieFoto"><b id="ultimoTitulo"></b><small id="ultimoFecha"></small></div>
+      </article>
+
+      <article class="carta">
+        <header><svg class="hoja"><use href="#hoja"/></svg><h2>Proyectos</h2><button data-vista="proyectos">Ver todos</button></header>
+        <div class="fichas" id="fichas"></div>
+        <div class="caja meta">
+          <svg viewBox="0 0 40 40" width="38" height="38"><path d="M6 34V14l14-9 14 9v20z" fill="#a9bf8c"/><rect x="16" y="22" width="8" height="12" rx="3" fill="#7a5a3a"/></svg>
+          <div><small>Meta: seguir construyendo la isla</small><div class="barra" style="margin:5px 0"><i style="width:66%"></i></div><small>3 parcelas reservadas para proyectos nuevos</small></div>
+        </div>
+      </article>
+
+      <article class="carta">
+        <header><svg class="hoja"><use href="#hoja"/></svg><h2>Mi isla</h2><a href="mapa.html">Abrir mapa</a></header>
+        <a class="mini" href="mapa.html" aria-label="Abrir el mapa de la isla" id="mini"></a>
+        <a class="boton claro" href="mapa.html">Ver mapa <svg class="hoja"><use href="#hoja"/></svg></a>
+      </article>
+
+      <article class="carta">
+        <header><svg class="hoja"><use href="#hoja"/></svg><h2>Programas</h2><button data-vista="programas">Ver todos</button></header>
+        <div class="programas" id="programas"></div>
+      </article>
+
+      <article class="carta ancha">
+        <header><svg class="hoja"><use href="#hoja"/></svg><h2>Empresas y contacto</h2><button data-vista="experiencia">Ver todo</button></header>
+        <div class="tres" id="empresas"></div>
+      </article>
+    </div>
+  </section>
+
+  <!-- ================= OTRAS VISTAS ================= -->
+  <section class="vista" id="v-proyectos"><h1 class="titulo"><svg class="hoja"><use href="#hoja"/></svg>Proyectos</h1><div class="galeria" id="galeria"></div></section>
+  <section class="vista" id="v-sobre"><h1 class="titulo"><svg class="hoja"><use href="#hoja"/></svg>Sobre mí</h1>
+    <article class="carta"><p class="texto" id="bio"></p><ul class="chips" id="areas"></ul><a class="boton" id="cv" target="_blank" rel="noopener">Ver currículum</a></article></section>
+  <section class="vista" id="v-experiencia"><h1 class="titulo"><svg class="hoja"><use href="#hoja"/></svg>Empresas</h1><div class="galeria" id="empresasTodo"></div></section>
+  <section class="vista" id="v-programas"><h1 class="titulo"><svg class="hoja"><use href="#hoja"/></svg>Programas</h1><div class="galeria" id="programasTodo"></div></section>
+  <section class="vista" id="v-contacto"><h1 class="titulo"><svg class="hoja"><use href="#hoja"/></svg>Contacto</h1>
+    <article class="carta"><p class="texto">Estoy disponible a tiempo completo. Escríbeme y te contesto lo antes posible.</p><a class="boton" id="contactoBtn" target="_blank" rel="noopener">Escríbeme en Behance</a></article></section>
+</main>
+
+<dialog id="ficha"></dialog>
+
+<script>
+/* ============================================================
+   DATOS — todo lo que se ve sale de aquí.
+   Para añadir un proyecto, copia un bloque de PROYECTOS y cámbialo.
+   ============================================================ */
+const BEHANCE='https://www.behance.net/mariabonillaaragon';
+const BIO='Enfocada en ilustración digital, diseño editorial y modelado 3D, desarrollo soluciones visuales que comunican con fuerza y autenticidad. Mi trabajo busca combinar estética y narrativa para crear piezas que conectan emocionalmente y aportan valor a cada proyecto.';
+const PROGRAMAS=[
+ {id:'ps',n:'Photoshop',ab:'Ps',c:'#4f7fb0'},{id:'ai',n:'Illustrator',ab:'Ai',c:'#d9893a'},{id:'id',n:'InDesign',ab:'Id',c:'#c4607a'},
+ {id:'rh',n:'Rhino',ab:'Rh',c:'#6b6f76'},{id:'dn',n:'Dimension',ab:'Dn',c:'#5f9a7a'}];
+const AREAS=['Marca e identidad','Modelado 3D y render','Redes sociales','Packaging','Diseño editorial'];
+const PROYECTOS=[
+ {id:'vuelta',t:'Propuesta La Vuelta',pre:'Identidad · Señalética · Soportes',fecha:'2026-05-20',empresa:'Fertiberia',c:'#d9685c',prog:['ai','ps'],areas:[0,2],
+  txt:'Propuesta creativa realizada durante mis prácticas en Fertiberia para renovar los elementos de comunicación de la marca en La Vuelta: señalética, intervención gráfica de paredes, redes sociales, arco hinchable, kakemonos y otros soportes, con una línea gráfica más actual y unificada.',
+  url:'https://www.behance.net/gallery/249695461/Propuesta-La-vuelta-Fertiberia',ico:'<path d="M8 34V18a12 12 0 0 1 24 0v16" fill="none" stroke="#d9685c" stroke-width="6" stroke-linecap="round"/><path d="M12 34h16" stroke="#3d4835" stroke-width="3" stroke-dasharray="3 3"/>'},
+ {id:'stand',t:'Stand New AG',pre:'Stand 3D · Redes sociales',fecha:'2026-05-17',empresa:'Fertiberia',c:'#6f9d77',prog:['ai','ps'],areas:[1,2],
+  txt:'Proyecto desarrollado durante mis prácticas en Fertiberia. Diseño y conceptualización integral del stand corporativo para el congreso New AG International Annual: desde el modelado 3D completo del espacio hasta todo el contenido visual para redes sociales.',
+  url:'https://www.behance.net/gallery/249538917/Stand-para-el-New-AG-International-Annual',ico:'<path d="M6 34V18l14-10 14 10v16z" fill="#cfe6d8" stroke="#6f9d77" stroke-width="2.500" stroke-linejoin="round"/><path d="M20 8v26M6 26h28" stroke="#6f9d77" stroke-width="2"/>'},
+ {id:'bimba',t:'Bimba y Lola x McDonald\'s',pre:'Editorial · Packaging · Campaña',fecha:'2026-05-16',c:'#e0a03a',prog:['ps','id'],areas:[3,4],
+  txt:'¿Cómo se cruzan el lujo accesible y el consumo masivo? Una colección de primavera que mete el universo gamberro y colorido de Bimba y Lola dentro de un McDonald\'s: un lookbook estructurado como un menú, el rediseño del packaging y el merch, y la campaña en calle y redes.',
+  url:'https://www.behance.net/gallery/249492559/Coleccion-primavera-BIMBA-Y-LOLA-X-McDonalds',ico:'<path d="M8 19q0-11 12-11t12 11z" fill="#e9b566"/><rect x="7" y="20" width="26" height="5" rx="2.500" fill="#8a563a"/><path d="M7 26h26l-3 3-3-2-4 2-3-2-4 2-3-2-3 2z" fill="#8fc27a"/><rect x="8" y="29" width="24" height="6" rx="3" fill="#e9b566"/>'},
+ {id:'sentia',t:'Sentia',pre:'Marca · Producto · Web · Packaging',fecha:'2026-03-24',c:'#62b8a2',prog:['ps'],areas:[0,2,3],
+  txt:'Fundas de teléfono para personas neurodivergentes, que combinan creatividad, funcionalidad y confort sensorial. Incluye la marca, el producto, la web, el packaging y el stand.',
+  url:'https://www.behance.net/gallery/246301585/Fundas-de-Telfono-para-personas-Neurodivergentes',ico:'<rect x="11" y="5" width="18" height="30" rx="5" fill="#62b8a2"/><g fill="#fff"><circle cx="16.500" cy="15" r="2.300"/><circle cx="23.500" cy="15" r="2.300"/><circle cx="16.500" cy="22" r="2.300"/><circle cx="23.500" cy="22" r="2.300"/><circle cx="16.500" cy="29" r="2.300"/><circle cx="23.500" cy="29" r="2.300"/></g>'},
+ {id:'loewe',t:'Loewe x Japón',pre:'Producto · 3D · Render',fecha:'2026-01-02',c:'#b86a55',prog:['rh','dn','ai','ps'],areas:[1],
+  txt:'Japan Essence: una propuesta de producto para Loewe inspirada en Japón, modelada y renderizada en 3D.',
+  url:'https://www.behance.net/gallery/241418949/Loewe-x-Japon',ico:'<path d="M4 20q12-2 16-10 4 8 16 10-8 3-16 3t-16-3z" fill="#b86a55"/><rect x="11" y="23" width="18" height="11" fill="#f6ead2"/><rect x="18" y="26" width="4" height="8" fill="#7a3a30"/><circle cx="20" cy="7" r="2.500" fill="#dfa63a"/>'},
+ {id:'sifur',t:'Style Sifur',pre:'Mobiliario · Marca · 3D',fecha:'2024-11-22',c:'#7f98b8',prog:['rh','dn','id','ps'],areas:[0,1,4],
+  txt:'Diseño de una silla y de su marca: modelado 3D, renders y maquetación del catálogo.',
+  url:'https://www.behance.net/gallery/213154483/Style-Sifur',ico:'<circle cx="20" cy="17" r="13" fill="#fff" stroke="#7f98b8" stroke-width="2.500"/><ellipse cx="21" cy="19" rx="7.500" ry="9" fill="#eaa27e"/><path d="M20 30v5M13 36h14" stroke="#3d4835" stroke-width="3" stroke-linecap="round"/>'},
+];
+const EMPRESAS=[
+ {n:'Fertiberia',rol:'Prácticas de diseñadora gráfica · Departamento de marketing',lugar:'Madrid',c:'#6f9d77'},
+ {n:'HOODIEBEAST',rol:'Prácticas · Diseñadora gráfica',lugar:'España',c:'#7f98b8'}];
+const CONSEJOS=['Pulsa en cualquier proyecto para verlo por dentro.','Abre el mapa de la isla: cada edificio es un proyecto.','En «Programas» puedes ver qué usé en cada trabajo.'];
+
+/* ============================================================ */
+const $=id=>document.getElementById(id),esc=s=>String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const P=id=>PROYECTOS.find(p=>p.id==id),hoja='<svg class="hoja"><use href="#hoja"/></svg>';
+const fechaLarga=f=>new Date(f+'T12:00').toLocaleDateString('es-ES',{day:'numeric',month:'long',year:'numeric'});
+/* Portada de cada proyecto: una imagen en la carpeta "portadas" con el id del proyecto (portadas/sentia.jpg…). Si no existe, se ve el recuadro a rayas. */
+const portada=p=>`<img src="portadas/${p.id}.jpg" alt="Portada de ${esc(p.t)}" loading="lazy" onerror="this.remove()">`;
+const chipsProg=p=>`<ul class="chips">${p.prog.map(k=>`<li>${PROGRAMAS.find(g=>g.id==k).n}</li>`).join('')}</ul>`;
+const tarjeta=p=>`<article class="carta" data-proy="${p.id}" tabindex="0" role="button"><div class="foto" style="--c:${p.c}">${portada(p)}Aquí irá la imagen de<br>«${esc(p.t)}»</div><div class="pieFoto"><b class="serif" style="font-size:18px">${esc(p.t)}</b><small>${esc(p.pre)}${p.empresa?' · '+p.empresa:''}</small></div>${chipsProg(p)}</article>`;
+
+/* Inicio */
+$('nProy').textContent=PROYECTOS.length+' publicados';
+$('barras').innerHTML=AREAS.map((a,i)=>{const n=PROYECTOS.filter(p=>p.areas.includes(i)).length;return `<li><span>${a}</span><span>${n} / ${PROYECTOS.length}</span><div class="barra"><i style="width:${n/PROYECTOS.length*100}%"></i></div></li>`;}).join('');
+const ult=[...PROYECTOS].sort((a,b)=>b.fecha.localeCompare(a.fecha))[0];
+$('ultimoFoto').style.setProperty('--c',ult.c);$('ultimoFoto').innerHTML=`${portada(ult)}Aquí irá la imagen de<br>«${esc(ult.t)}»`;$('ultimoFoto').dataset.proy=ult.id;
+$('ultimoTitulo').textContent=ult.t;$('ultimoFecha').textContent=fechaLarga(ult.fecha);
+$('fichas').innerHTML=PROYECTOS.map(p=>`<button class="ficha" data-proy="${p.id}"><span><svg viewBox="0 0 40 40">${p.ico}</svg></span>${esc(p.t)}</button>`).join('');
+$('programas').innerHTML=PROGRAMAS.map(g=>`<button class="prog" data-vista="programas"><i style="--c:${g.c}">${g.ab}</i>${g.n}</button>`).join('');
+$('empresas').innerHTML=EMPRESAS.map(e=>`<div class="caja empresa"><div><b class="serif">${e.n}</b>${esc(e.rol)}</div><svg viewBox="0 0 40 40"><rect x="5" y="12" width="30" height="22" rx="4" fill="${e.c}"/><path d="M14 12V9a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v3" fill="none" stroke="${e.c}" stroke-width="3"/><path d="M5 22h30" stroke="#fff" stroke-width="2" opacity=".6"/></svg></div>`).join('')
+ +`<div class="caja empresa"><div><b class="serif">¿Hablamos?</b>Estoy disponible a tiempo completo.</div><button class="boton" data-vista="contacto">Contacto</button></div>`;
+$('consejo').textContent=CONSEJOS[new Date().getDate()%CONSEJOS.length];
+
+/* Mini mapa (misma isla que mapa.html, en pequeño) */
+const POS={vuelta:[1420,980],stand:[600,1060],bimba:[1450,430],sentia:[500,520],loewe:[430,800],sifur:[1580,720]};
+$('mini').innerHTML=`<svg viewBox="100 80 1800 1260" preserveAspectRatio="xMidYMid slice"><path d="M330 420C300 250 520 170 700 190C820 120 1010 140 1100 200C1250 150 1500 170 1640 300C1790 400 1830 560 1770 700C1840 820 1780 1010 1640 1080C1560 1200 1380 1230 1260 1170C1180 1260 980 1290 860 1230C700 1290 480 1250 400 1120C250 1040 200 860 260 740C180 620 230 480 330 420Z" fill="#8fb878" stroke="#efe2b8" stroke-width="70" stroke-linejoin="round" paint-order="stroke"/>
+ <path d="M1185 300C1160 380 1255 440 1210 560C1170 680 1060 720 1080 860C1100 1000 1010 1100 1040 1275" fill="none" stroke="#a9d3cc" stroke-width="44" stroke-linecap="round"/>
+ <path d="M820 720Q790 560 800 414M820 720Q640 600 500 534M820 720Q620 790 430 814M820 720Q700 900 600 1074M820 720Q980 690 1122 702Q1300 800 1580 738M1401 784Q1400 600 1450 446M1401 784Q1385 890 1420 1004" fill="none" stroke="#efe2b8" stroke-width="20" stroke-linecap="round" stroke-dasharray="2 34"/>
+ <circle cx="820" cy="720" r="60" fill="#efe2b8"/>
+ ${PROYECTOS.map(p=>{const[x,y]=POS[p.id]||[0,0];return `<g transform="translate(${x},${y})"><path d="M-52 0v-52l52-40 52 40v52z" fill="#f9f4e5"/><path d="M-66 -46L0 -100L66 -46Z" fill="${p.c}" stroke="${p.c}" stroke-width="12" stroke-linejoin="round"/></g>`;}).join('')}
+ <g transform="translate(800,400)"><path d="M-52 0v-52l52-40 52 40v52z" fill="#f9f4e5"/><path d="M-66 -46L0 -100L66 -46Z" fill="#8a6238" stroke="#8a6238" stroke-width="12" stroke-linejoin="round"/></g></svg>`;
+
+/* Otras vistas */
+$('galeria').innerHTML=PROYECTOS.map(tarjeta).join('')+`<article class="carta" style="justify-content:center;align-items:center;text-align:center;border-style:dashed;min-height:200px"><b class="serif" style="font-size:18px">Próximamente</b><small>Parcela reservada para el siguiente proyecto</small></article>`;
+$('bio').textContent=BIO;$('areas').innerHTML=['Ilustración digital',...AREAS].map(a=>`<li>${a}</li>`).join('');$('cv').href=BEHANCE+'/info';$('contactoBtn').href=BEHANCE;
+$('empresasTodo').innerHTML=EMPRESAS.map(e=>{const ps=PROYECTOS.filter(p=>p.empresa==e.n);return `<article class="carta"><header>${hoja}<h2>${e.n}</h2></header><div>${esc(e.rol)}<br><small style="color:var(--suave)">${e.lugar}</small></div>${ps.length?`<div class="caja"><small>Proyectos que hice aquí</small>${ps.map(p=>`<button class="boton claro" style="margin:6px 6px 0 0" data-proy="${p.id}">${esc(p.t)}</button>`).join('')}</div>`:''}</article>`;}).join('');
+$('programasTodo').innerHTML=PROGRAMAS.map(g=>{const ps=PROYECTOS.filter(p=>p.prog.includes(g.id));return `<article class="carta"><div class="prog" style="flex-direction:row;gap:12px;font-size:18px"><i style="--c:${g.c}">${g.ab}</i><span class="serif">${g.n}</span></div><div class="caja"><small>Lo usé en ${ps.length} ${ps.length==1?'proyecto':'proyectos'}</small>${ps.map(p=>`<button class="boton claro" style="margin:6px 6px 0 0" data-proy="${p.id}">${esc(p.t)}</button>`).join('')}</div></article>`;}).join('');
+
+/* Menú lateral: cambia de vista */
+function ver(v){document.querySelectorAll('.vista').forEach(s=>s.classList.toggle('activa',s.id=='v-'+v));document.querySelectorAll('nav [data-vista]').forEach(b=>b.classList.toggle('activo',b.dataset.vista==v));scrollTo({top:0});history.replaceState(null,'','#'+v);}
+/* Ficha de proyecto */
+const dlg=$('ficha');
+function abrir(id){const p=P(id);dlg.style.setProperty('--c',p.c);
+ dlg.innerHTML=`<header><small>${esc(p.pre)}</small><h2>${esc(p.t)}</h2><button class="x" aria-label="Cerrar">✕</button></header><div class="dentro"><div class="foto" style="--c:${p.c}">${portada(p)}Aquí irán las imágenes de<br>«${esc(p.t)}»</div><div><p style="margin:0;font-size:15px">${esc(p.txt)}</p><small style="color:var(--suave);font-weight:700">${fechaLarga(p.fecha)}${p.empresa?' · '+p.empresa:''}</small>${chipsProg(p)}<a class="boton" href="${p.url}" target="_blank" rel="noopener">Ver el proyecto completo</a></div></div>`;
+ dlg.querySelector('.x').onclick=()=>dlg.close();dlg.showModal();}
+dlg.addEventListener('click',e=>{if(e.target===dlg)dlg.close();});
+document.addEventListener('click',e=>{const pr=e.target.closest('[data-proy]');if(pr){if(dlg.open)dlg.close();abrir(pr.dataset.proy);return;}const v=e.target.closest('[data-vista]');if(v)ver(v.dataset.vista);});
+document.addEventListener('keydown',e=>{if(e.key=='Enter'&&e.target.matches('article[data-proy]'))abrir(e.target.dataset.proy);});
+if(location.hash&&$('v-'+location.hash.slice(1)))ver(location.hash.slice(1));
+
+/* Fecha, estación, hora y calendario */
+function reloj(){const d=new Date(),m=d.getMonth();$('fecha').textContent=d.toLocaleDateString('es-ES',{day:'numeric',month:'long',year:'numeric'});$('estacion').textContent=m<2||m==11?'Invierno':m<5?'Primavera':m<8?'Verano':'Otoño';$('hora').textContent=d.toLocaleTimeString('es-ES',{hour:'2-digit',minute:'2-digit'});}
+reloj();setInterval(reloj,20000);
+(function(){const d=new Date(),a=d.getFullYear(),m=d.getMonth(),ini=(new Date(a,m,1).getDay()+6)%7,n=new Date(a,m+1,0).getDate();let h='LMXJVSD'.split('').map(x=>`<i class="d">${x}</i>`).join('')+'<i></i>'.repeat(ini);for(let i=1;i<=n;i++)h+=`<i${i==d.getDate()?' class="h"':''}>${i}</i>`;
+ const t=d.toLocaleDateString('es-ES',{month:'long',year:'numeric'});$('cal').innerHTML=`<b>${t[0].toUpperCase()+t.slice(1)}</b><div>${h}</div>`;})();
+</script>
+</body>
+</html>
