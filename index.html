@@ -101,12 +101,16 @@
   .boton.claro{background:var(--caja);color:var(--tinta);box-shadow:0 3px 0 var(--borde)}
 
   /* Programas */
-  .programas{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px 6px;flex:1;align-content:center}
+  .programas{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:10px 4px;flex:1;align-content:center}
   .prog{display:flex;flex-direction:column;align-items:center;gap:4px;font-size:11px;font-weight:700;text-align:center}
-  .prog i{font-style:normal;width:52px;height:52px;border-radius:50%;display:grid;place-items:center;font-family:Fraunces,serif;font-size:19px;color:#fff;background:var(--c);box-shadow:inset 0 0 0 3px rgba(255,255,255,.35)}
+  .prog i{font-style:normal;width:46px;height:46px;border-radius:50%;display:grid;place-items:center;font-family:Fraunces,serif;font-size:17px;color:#fff;background:var(--c);box-shadow:inset 0 0 0 3px rgba(255,255,255,.35)}
 
+  .contactos{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:10px}
+  .contactos a{text-decoration:none;overflow-wrap:anywhere}
+  .contactos a:hover{background:#e8dfc4}
+  .contactos b{font-size:15px}
   /* Notas / empresas */
-  .tres{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}
+  .tres{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:12px}
   .empresa{display:flex;gap:10px;align-items:center;justify-content:space-between}
   .empresa b{display:block;font-size:15px}
   .empresa ul{margin:4px 0 0;padding-left:16px;font-size:12px;color:var(--suave)}
@@ -125,16 +129,20 @@
   .chips li{background:var(--caja);border-radius:999px;padding:2px 10px;font-size:12px;font-weight:700}
   .texto{font-size:16px;max-width:70ch;margin:0}
 
-  /* Ficha de proyecto */
-  dialog{border:0;border-radius:24px;padding:0;background:var(--carta);color:var(--tinta);width:min(760px,calc(100vw - 24px));max-height:calc(100vh - 24px);box-shadow:0 10px 0 rgba(60,50,30,.18)}
-  dialog::backdrop{background:rgba(50,65,45,.45)}
-  dialog header{background:var(--c,var(--verde2));color:#fff;padding:20px 60px 16px 24px;position:relative}
-  dialog header small{font-weight:800;letter-spacing:.05em;text-transform:uppercase;font-size:11px;opacity:.95}
-  dialog header h2{font-size:28px;line-height:1.1}
-  dialog .x{position:absolute;top:14px;right:14px;width:38px;height:38px;border-radius:50%;background:rgba(255,255,255,.3);color:#fff;font-weight:800;font-size:18px;text-align:center}
-  dialog .dentro{padding:18px 24px 24px;display:grid;grid-template-columns:1fr 1.2fr;gap:20px}
-  dialog .dentro>div{display:flex;flex-direction:column;gap:12px;align-items:flex-start}
-  dialog .foto{min-height:220px}
+  /* Proyecto desplegado */
+  .cab{background:var(--c,var(--verde2));color:#fff;border-radius:22px;padding:22px 26px;display:grid;grid-template-columns:1.3fr 1fr;gap:24px;align-items:end}
+  .cab small{font-weight:800;letter-spacing:.05em;text-transform:uppercase;font-size:12px;opacity:.95}
+  .cab h1{font-size:clamp(28px,3.4vw,42px);line-height:1.05;margin:4px 0 10px}
+  .cab p{margin:0;font-size:15px}
+  .cab .lado{display:flex;flex-direction:column;gap:10px;align-items:flex-start}
+  .cab .chips li{background:rgba(255,255,255,.26)}
+  .cab .boton{background:#fff;color:var(--tinta);box-shadow:0 3px 0 rgba(0,0,0,.18)}
+  .atras{align-self:flex-start;background:var(--carta);border:1px solid var(--borde);border-radius:999px;padding:7px 16px;font-weight:800}
+  .atras:hover{background:#fff}
+  .laminas{border-radius:22px;overflow:hidden;background:var(--carta);border:1px solid var(--borde)}
+  .laminas img{display:block;width:100%;height:auto}
+  .otros{display:flex;gap:10px;flex-wrap:wrap;justify-content:space-between}
+  @media (max-width:760px){.cab{grid-template-columns:1fr;padding:18px}}
 
   @media (max-width:1100px){.rejilla{grid-template-columns:repeat(2,minmax(0,1fr))}.fichas{grid-template-columns:repeat(3,minmax(0,1fr))}}
   @media (max-width:760px){
@@ -149,7 +157,6 @@
     .hoy{position:relative;top:auto;right:auto;margin-left:auto;display:none}
     .banner{min-height:120px;padding:16px}
     .banner::after{background:linear-gradient(90deg,#f3eedb 0,rgba(243,238,219,.85) 55%,rgba(243,238,219,.2))}
-    dialog .dentro{grid-template-columns:1fr}
   }
   @media (max-width:420px){.dos{grid-template-columns:1fr}.saludo h1{font-size:24px}}
 </style>
@@ -262,10 +269,16 @@
   <section class="vista" id="v-experiencia"><h1 class="titulo"><svg class="hoja"><use href="#hoja"/></svg>Empresas</h1><div class="galeria" id="empresasTodo"></div></section>
   <section class="vista" id="v-programas"><h1 class="titulo"><svg class="hoja"><use href="#hoja"/></svg>Programas</h1><div class="galeria" id="programasTodo"></div></section>
   <section class="vista" id="v-contacto"><h1 class="titulo"><svg class="hoja"><use href="#hoja"/></svg>Contacto</h1>
-    <article class="carta"><p class="texto">Estoy disponible a tiempo completo. Escríbeme y te contesto lo antes posible.</p><a class="boton" id="contactoBtn" target="_blank" rel="noopener">Escríbeme en Behance</a></article></section>
+    <article class="carta"><p class="texto">Estoy disponible a tiempo completo. Escríbeme o llámame y te contesto lo antes posible.</p>
+      <div class="contactos">
+        <a class="caja" href="mailto:bonillaaragonesesmaria@gmail.com"><small>Email</small><b>bonillaaragonesesmaria@gmail.com</b></a>
+        <a class="caja" href="tel:+34684134781"><small>Teléfono</small><b>+34 684 13 47 81</b></a>
+        <a class="caja" id="contactoBtn" target="_blank" rel="noopener"><small>Portfolio</small><b>Behance</b></a>
+        <a class="caja" href="https://heyzine.com/flip-book/64421d2f0c.html" target="_blank" rel="noopener"><small>Currículum</small><b>Ver mi CV</b></a>
+      </div></article></section>
+  <section class="vista" id="v-proyecto"></section>
 </main>
 
-<dialog id="ficha"></dialog>
 
 <script>
 /* ============================================================
@@ -273,11 +286,15 @@
    Para añadir un proyecto, copia un bloque de PROYECTOS y cámbialo.
    ============================================================ */
 const BEHANCE='https://www.behance.net/mariabonillaaragon';
+const CV='https://heyzine.com/flip-book/64421d2f0c.html';
 const BIO='Enfocada en ilustración digital, diseño editorial y modelado 3D, desarrollo soluciones visuales que comunican con fuerza y autenticidad. Mi trabajo busca combinar estética y narrativa para crear piezas que conectan emocionalmente y aportan valor a cada proyecto.';
 const PROGRAMAS=[
  {id:'ps',n:'Photoshop',ab:'Ps',c:'#4f7fb0'},{id:'ai',n:'Illustrator',ab:'Ai',c:'#d9893a'},{id:'id',n:'InDesign',ab:'Id',c:'#c4607a'},
- {id:'rh',n:'Rhino',ab:'Rh',c:'#6b6f76'},{id:'dn',n:'Dimension',ab:'Dn',c:'#5f9a7a'}];
-const AREAS=['Marca e identidad','Modelado 3D y render','Redes sociales','Packaging','Diseño editorial'];
+ {id:'rh',n:'Rhino',ab:'Rh',c:'#6b6f76'},{id:'dn',n:'Dimension',ab:'Dn',c:'#5f9a7a'},
+ {id:'bl',n:'Blender',ab:'Bl',c:'#d98a4a'},{id:'zb',n:'ZBrush',ab:'Zb',c:'#7a6f8f'},{id:'ks',n:'KeyShot',ab:'Ks',c:'#4f93a8'},{id:'cv',n:'Canva',ab:'Cv',c:'#58b0b0'}];
+const AREAS=['Marca e identidad','Modelado 3D y render','Redes sociales','Packaging','Diseño editorial','Páginas web con IA'];
+/* Nivel de cada área de AREAS, de 0 a 100 (lo que mide la barra de «Lo que hago») */
+const NIVEL=[95,95,90,90,90,85];
 const PROYECTOS=[
  {id:'vuelta',t:'Propuesta La Vuelta',pre:'Identidad · Señalética · Soportes',fecha:'2026-05-20',empresa:'Fertiberia',c:'#d9685c',prog:['ai','ps'],areas:[0,2],
   txt:'Propuesta creativa realizada durante mis prácticas en Fertiberia para renovar los elementos de comunicación de la marca en La Vuelta: señalética, intervención gráfica de paredes, redes sociales, arco hinchable, kakemonos y otros soportes, con una línea gráfica más actual y unificada.',
@@ -300,7 +317,8 @@ const PROYECTOS=[
 ];
 const EMPRESAS=[
  {n:'Fertiberia',rol:'Prácticas de diseñadora gráfica · Departamento de marketing',lugar:'Madrid',c:'#6f9d77'},
- {n:'HOODIEBEAST',rol:'Prácticas · Diseñadora gráfica',lugar:'España',c:'#7f98b8'}];
+ {n:'HOODIEBEAST',rol:'Prácticas · Diseñadora gráfica',lugar:'España',c:'#7f98b8'},
+ {n:'Por mi cuenta',rol:'Trabajos esporádicos como diseñadora freelance',lugar:'España',c:'#d9a05c'}];
 const CONSEJOS=['Pulsa en cualquier proyecto para verlo por dentro.','Abre el mapa de la isla: cada edificio es un proyecto.','En «Programas» puedes ver qué usé en cada trabajo.'];
 
 /* ============================================================ */
@@ -314,7 +332,7 @@ const tarjeta=p=>`<article class="carta" data-proy="${p.id}" tabindex="0" role="
 
 /* Inicio */
 $('nProy').textContent=PROYECTOS.length+' publicados';
-$('barras').innerHTML=AREAS.map((a,i)=>{const n=PROYECTOS.filter(p=>p.areas.includes(i)).length;return `<li><span>${a}</span><span>${n} / ${PROYECTOS.length}</span><div class="barra"><i style="width:${n/PROYECTOS.length*100}%"></i></div></li>`;}).join('');
+$('barras').innerHTML=AREAS.map((a,i)=>`<li><span>${a}</span><span>${NIVEL[i]>=90?'Avanzado':'Alto'}</span><div class="barra"><i style="width:${NIVEL[i]}%"></i></div></li>`).join('');
 const ult=[...PROYECTOS].sort((a,b)=>b.fecha.localeCompare(a.fecha))[0];
 $('ultimoFoto').style.setProperty('--c',ult.c);$('ultimoFoto').innerHTML=`${portada(ult)}Aquí irá la imagen de<br>«${esc(ult.t)}»`;$('ultimoFoto').dataset.proy=ult.id;
 $('ultimoTitulo').textContent=ult.t;$('ultimoFecha').textContent=fechaLarga(ult.fecha);
@@ -335,21 +353,27 @@ $('mini').innerHTML=`<svg viewBox="100 80 1800 1260" preserveAspectRatio="xMidYM
 
 /* Otras vistas */
 $('galeria').innerHTML=PROYECTOS.map(tarjeta).join('')+`<article class="carta" style="justify-content:center;align-items:center;text-align:center;border-style:dashed;min-height:200px"><b class="serif" style="font-size:18px">Próximamente</b><small>Parcela reservada para el siguiente proyecto</small></article>`;
-$('bio').textContent=BIO;$('areas').innerHTML=['Ilustración digital',...AREAS].map(a=>`<li>${a}</li>`).join('');$('cv').href=BEHANCE+'/info';$('contactoBtn').href=BEHANCE;
+$('bio').textContent=BIO;$('areas').innerHTML=['Ilustración digital',...AREAS].map(a=>`<li>${a}</li>`).join('');$('cv').href=CV;$('contactoBtn').href=BEHANCE;
 $('empresasTodo').innerHTML=EMPRESAS.map(e=>{const ps=PROYECTOS.filter(p=>p.empresa==e.n);return `<article class="carta"><header>${hoja}<h2>${e.n}</h2></header><div>${esc(e.rol)}<br><small style="color:var(--suave)">${e.lugar}</small></div>${ps.length?`<div class="caja"><small>Proyectos que hice aquí</small>${ps.map(p=>`<button class="boton claro" style="margin:6px 6px 0 0" data-proy="${p.id}">${esc(p.t)}</button>`).join('')}</div>`:''}</article>`;}).join('');
-$('programasTodo').innerHTML=PROGRAMAS.map(g=>{const ps=PROYECTOS.filter(p=>p.prog.includes(g.id));return `<article class="carta"><div class="prog" style="flex-direction:row;gap:12px;font-size:18px"><i style="--c:${g.c}">${g.ab}</i><span class="serif">${g.n}</span></div><div class="caja"><small>Lo usé en ${ps.length} ${ps.length==1?'proyecto':'proyectos'}</small>${ps.map(p=>`<button class="boton claro" style="margin:6px 6px 0 0" data-proy="${p.id}">${esc(p.t)}</button>`).join('')}</div></article>`;}).join('');
+$('programasTodo').innerHTML=PROGRAMAS.map(g=>{const ps=PROYECTOS.filter(p=>p.prog.includes(g.id));return `<article class="carta"><div class="prog" style="flex-direction:row;gap:12px;font-size:18px"><i style="--c:${g.c}">${g.ab}</i><span class="serif">${g.n}</span></div><div class="caja"><small>${ps.length?`Lo usé en ${ps.length} ${ps.length==1?'proyecto':'proyectos'} de este portafolio`:'Lo uso en trabajos propios'}</small>${ps.map(p=>`<button class="boton claro" style="margin:6px 6px 0 0" data-proy="${p.id}">${esc(p.t)}</button>`).join('')}</div></article>`;}).join('');
 
 /* Menú lateral: cambia de vista */
-function ver(v){document.querySelectorAll('.vista').forEach(s=>s.classList.toggle('activa',s.id=='v-'+v));document.querySelectorAll('nav [data-vista]').forEach(b=>b.classList.toggle('activo',b.dataset.vista==v));scrollTo({top:0});history.replaceState(null,'','#'+v);}
-/* Ficha de proyecto */
-const dlg=$('ficha');
-function abrir(id){const p=P(id);dlg.style.setProperty('--c',p.c);
- dlg.innerHTML=`<header><small>${esc(p.pre)}</small><h2>${esc(p.t)}</h2><button class="x" aria-label="Cerrar">✕</button></header><div class="dentro"><div class="foto" style="--c:${p.c}">${portada(p)}Aquí irán las imágenes de<br>«${esc(p.t)}»</div><div><p style="margin:0;font-size:15px">${esc(p.txt)}</p><small style="color:var(--suave);font-weight:700">${fechaLarga(p.fecha)}${p.empresa?' · '+p.empresa:''}</small>${chipsProg(p)}<a class="boton" href="${p.url}" target="_blank" rel="noopener">Ver el proyecto completo</a></div></div>`;
- dlg.querySelector('.x').onclick=()=>dlg.close();dlg.showModal();}
-dlg.addEventListener('click',e=>{if(e.target===dlg)dlg.close();});
-document.addEventListener('click',e=>{const pr=e.target.closest('[data-proy]');if(pr){if(dlg.open)dlg.close();abrir(pr.dataset.proy);return;}const v=e.target.closest('[data-vista]');if(v)ver(v.dataset.vista);});
-document.addEventListener('keydown',e=>{if(e.key=='Enter'&&e.target.matches('article[data-proy]'))abrir(e.target.dataset.proy);});
-if(location.hash&&$('v-'+location.hash.slice(1)))ver(location.hash.slice(1));
+function ver(v,quieto){document.querySelectorAll('.vista').forEach(s=>s.classList.toggle('activa',s.id=='v-'+v));document.querySelectorAll('nav [data-vista]').forEach(b=>b.classList.toggle('activo',b.dataset.vista==(v=='proyecto'?'proyectos':v)));scrollTo({top:0});if(!quieto&&location.hash!='#'+v)history.pushState(null,'','#'+v);}
+/* Proyecto desplegado: cabecera con el texto y todas sus imágenes una debajo de otra.
+   Las imágenes están en proyectos/<id>/01.jpg, 02.jpg… (n = cuántas hay; gif = cuáles son animadas). */
+const GALERIA={sentia:{n:8,gif:[4,6]},bimba:{n:8},loewe:{n:11},sifur:{n:13,gif:[1,8,11]},stand:{n:6},vuelta:{n:26}};
+const laminas=p=>{const g=GALERIA[p.id]||{n:0};return Array.from({length:g.n},(_,i)=>`proyectos/${p.id}/${String(i+1).padStart(2,'0')}.${(g.gif||[]).includes(i+1)?'gif':'jpg'}`);};
+function desplegar(id,quieto){const p=P(id);if(!p)return;const i=PROYECTOS.indexOf(p),ant=PROYECTOS[(i+PROYECTOS.length-1)%PROYECTOS.length],sig=PROYECTOS[(i+1)%PROYECTOS.length];
+ $('v-proyecto').innerHTML=`<button class="atras" data-vista="proyectos">← Todos los proyectos</button>
+ <header class="cab" style="--c:${p.c}"><div><small>${esc(p.pre)}</small><h1>${esc(p.t)}</h1><p>${esc(p.txt)}</p></div><div class="lado"><small>${fechaLarga(p.fecha)}${p.empresa?' · '+p.empresa:''}</small>${chipsProg(p)}<a class="boton" href="${p.url}" target="_blank" rel="noopener">Ver en Behance</a></div></header>
+ <div class="laminas">${laminas(p).map((s,k)=>`<img src="${s}" alt="${esc(p.t)}, imagen ${k+1}"${k>1?' loading="lazy"':''}>`).join('')}</div>
+ <div class="otros"><button class="boton claro" data-proy="${ant.id}">← ${esc(ant.t)}</button><button class="boton claro" data-proy="${sig.id}">${esc(sig.t)} →</button></div>`;
+ ver('proyecto',true);if(!quieto&&location.hash!='#proyecto-'+id)history.pushState(null,'','#proyecto-'+id);}
+document.addEventListener('click',e=>{const pr=e.target.closest('[data-proy]');if(pr){desplegar(pr.dataset.proy);return;}const v=e.target.closest('[data-vista]');if(v)ver(v.dataset.vista);});
+document.addEventListener('keydown',e=>{if(e.key=='Enter'&&e.target.matches('article[data-proy]'))desplegar(e.target.dataset.proy);});
+/* La dirección manda: así funcionan el botón atrás del navegador y los enlaces desde el mapa */
+function ruta(){const h=location.hash.slice(1);if(h.startsWith('proyecto-'))desplegar(h.slice(9),true);else ver(h&&$('v-'+h)?h:'inicio',true);}
+addEventListener('popstate',ruta);ruta();
 
 /* Fecha, estación, hora y calendario */
 function reloj(){const d=new Date(),m=d.getMonth();$('fecha').textContent=d.toLocaleDateString('es-ES',{day:'numeric',month:'long',year:'numeric'});$('estacion').textContent=m<2||m==11?'Invierno':m<5?'Primavera':m<8?'Verano':'Otoño';$('hora').textContent=d.toLocaleTimeString('es-ES',{hour:'2-digit',minute:'2-digit'});}
